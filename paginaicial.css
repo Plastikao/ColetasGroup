@@ -29,17 +29,18 @@ header{
 
 .header__ul{
     display: grid;
-    grid-template-columns: 5%  37rem 5% auto;
+    grid-template-columns: 60%  24rem 5% auto;
     list-style-type: none;
     padding: 64px 10% 0px 18%;
-    gap: 10rem;
+    gap: 11rem;
     color: var(--TextoHeader-);
     align-items: center;
     width: 100vh;
 }
 
 .header__h3{
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+    font-weight: 500;
 }
 
 .button_li{
@@ -63,18 +64,18 @@ header{
     color: var(--TextoHeader-);
     font-size: var(--fonte-);
     border: none;
-    border-radius: 26px;
+    border-radius: 20px;
 }
 
 .button__section{
     width: 200px;
-    height: 45px;
+    height: 50px;
 }
 
 .meioBotaoPesquisa{
-    margin-top: 5rem;
     display: flex;
-    justify-content: space-between;
+    margin-top: 5rem;
+   justify-content: space-around;
     padding: 0 18% 0 17%;
 }
 
@@ -89,10 +90,26 @@ header{
     text-align: center;
     opacity: 0.6;
     
-    &:hover{
-        cursor: pointer;
-    }
+
 }
+
+.buttonStatus{
+    height: 50px;
+    width: 180px;
+    border: none;
+    border-radius: 11px;
+    color: var(--TextoHeader-);
+    font-size: var(--fonte-);
+}
+#ButtonStatusVermelho{
+    background-color: #eb3939;
+}
+#ButtonStatusAmarelo{
+    background-color:#ffa800 ;
+}#ButtonStatusVerde{
+    background-color:#00bf63 ;
+}
+
 /* fim botão e pesquisa */
 
 /* inicio projetos */
@@ -143,7 +160,7 @@ p{
 #barraProgesso{
     width: 70%;
     height: 30px;
-    background: linear-gradient(to right, #f45507, #ffb001);
+   background: linear-gradient(to right, #0758f4, #01caff);
     border-radius: 40px;
 }
 
