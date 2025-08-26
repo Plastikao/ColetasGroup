@@ -4,15 +4,14 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: "Inter", sans-serif;
 }
-/* fwsgeedxthbdrtex h*/
 
 :root {
     --fonte-: 1.2rem;
     --corDeFundo-: #292d2e;
     --TextoHeader-:#f6f6f6;
     --preto-: #000000;
-
 }
 
 
@@ -26,20 +25,17 @@ body{
 
 header{
     width: 100%;
-   
 }
 
 .header__ul{
-display: grid;
-grid-template-columns: 5%  37rem 5% auto;
-list-style-type: none;
-padding: 64px 10% 0px 18%;
-gap: 10rem;
-color: var(--TextoHeader-);
-align-items: center;
-width: 100vh;
-
-
+    display: grid;
+    grid-template-columns: 5%  37rem 5% auto;
+    list-style-type: none;
+    padding: 64px 10% 0px 18%;
+    gap: 10rem;
+    color: var(--TextoHeader-);
+    align-items: center;
+    width: 100vh;
 }
 
 .header__h3{
@@ -47,15 +43,15 @@ width: 100vh;
 }
 
 .button_li{
-width: 165px;
-height: 45px;
+    width: 165px;
+    height: 45px;
 }
 
 .stylepoint{
-&:hover{
-    cursor: pointer;
+    &:hover{
+        cursor: pointer;
+    }
 }
- }
 
 
 
@@ -68,7 +64,6 @@ height: 45px;
     font-size: var(--fonte-);
     border: none;
     border-radius: 26px;
-    
 }
 
 .button__section{
@@ -95,7 +90,7 @@ height: 45px;
     opacity: 0.6;
     
     &:hover{
-cursor: pointer;
+        cursor: pointer;
     }
 }
 /* fim botão e pesquisa */
@@ -111,8 +106,6 @@ cursor: pointer;
     display: grid;
     grid-template-rows: auto auto ;
     grid-template-columns: 1fr 1fr 1fr;
-    
-    
 }
 
 .meio_bloco{
@@ -132,7 +125,6 @@ p{
     display:flex;
 
     font-size: var(--fonte-);
-
 }
 
 .fa-solid{
@@ -151,7 +143,7 @@ p{
 #barraProgesso{
     width: 70%;
     height: 30px;
-       background: linear-gradient(to right, #f45507, #ffb001);
+    background: linear-gradient(to right, #f45507, #ffb001);
     border-radius: 40px;
 }
 
