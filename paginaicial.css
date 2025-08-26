@@ -15,8 +15,9 @@
 }
 
 
-body{
-    background-color: var(--corDeFundo-);
+body, html{
+    background: linear-gradient(to top, #000000, var(--corDeFundo-));
+
     overflow: hidden;   /* desativa scroll horizontal e vertical */
     height: 100%;
 }
@@ -75,7 +76,7 @@ header{
 .meioBotaoPesquisa{
     display: flex;
     margin-top: 5rem;
-   justify-content: space-around;
+    justify-content: space-around;
     padding: 0 18% 0 17%;
 }
 
