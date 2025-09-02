@@ -1,5 +1,9 @@
-import express from 'express';
+const express = require('express');
+const routes = require('./routes/conectaApi.js');
 
 const app = express();
 
-export default app;
+app.use(express.json());
+routes(app);
+
+module.exports = app;
