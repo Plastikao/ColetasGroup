@@ -5,10 +5,22 @@ class UsuarioServices extends Services {
         super('Usuario');
     }
 
+    async pegaUsuarioPorNome(nome) {
+        const nomePesquisa = await super.pegaUmRegistroPorNome(nome);
+
+        return nomePesquisa;
+    }
+
     async pegaUsuarioPorEmail(email) {
         const emailPesquisa = await super.pegaUmRegistroPorEmail(email);
 
         return emailPesquisa;
+    }
+
+    async pegaUsuarioPorSenha(senha) {
+        const senhaPesquisa = await super.pegaUmRegistroPorSenha(senha);
+
+        return senhaPesquisa;
     }
 }
 

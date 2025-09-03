@@ -1,9 +1,16 @@
-export async function registrarUsuario() {
-    var emailRegistro = [document.querySelector('#email_section').value, false];
-    var usuarioRegistro = document.querySelector('#usuario_section').value;
-    var senhaRegistro = [document.querySelector('#senha_section').value, false];
-    var confirmaSenhaRegistro = [document.querySelector('#confirmarSenha_section').value, false];
+//#region DOCUMENTS
+const botaoRegistro = document.querySelector('#id_botao_registro');
+var emailRegistro = [document.querySelector('#email_section').value, false];
+var usuarioRegistro = document.querySelector('#usuario_section').value;
+var senhaRegistro = [document.querySelector('#senha_section').value, false];
+var confirmaSenhaRegistro = [document.querySelector('#confirmarSenha_section').value, false];
+//#endregion
 
+//#region EVENTS
+botaoRegistro.addEventListener('click', () => {registrarUsuario()})
+//#endregion
+
+async function registrarUsuario() {
     if (emailRegistro[0].length > 0 &&
         usuarioRegistro.length > 0 &&
         senhaRegistro[0].length > 0 &&
@@ -38,11 +45,8 @@ export async function registrarUsuario() {
                     })
                 });
             
-                const conexaoConvertida = await conexao.json();
-            
-                return conexaoConvertida;
+                window.history.back();
             }
-            
         }
     }
 

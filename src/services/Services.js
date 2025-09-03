@@ -13,9 +13,21 @@ class Services {
 //#endregion
 
 //#region READ
+    async pegaUmRegistroPorNome(nome) {
+        return dataSource[this.model].findOne({
+            where: { nome: nome }
+        });
+    }
+
     async pegaUmRegistroPorEmail(email) {
         return dataSource[this.model].findOne({
             where: { email: email }
+        });
+    }
+
+    async pegaUmRegistroPorSenha(senha) {
+        return dataSource[this.model].findOne({
+            where: { senha: senha }
         });
     }
 //#endregion
