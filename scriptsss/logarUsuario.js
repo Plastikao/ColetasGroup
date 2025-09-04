@@ -17,7 +17,7 @@ async function logarUsuario(nomeOuEmail, senha) {
         tempNomeEmail = await (await fetch(`http://localhost:3000/usuarios/nome/${nomeOuEmail}`)).json();
 
         if (tempNomeEmail == null) {
-            tempNomeEmail = await fetch(`http://localhost:3000/usuarios/email/${nomeOuEmail}`);
+            tempNomeEmail = await (await fetch(`http://localhost:3000/usuarios/email/${nomeOuEmail}`)).json();
         }
 
         // BUSCA SENHA
@@ -33,7 +33,7 @@ async function logarUsuario(nomeOuEmail, senha) {
         }
 
         else {
-            window.localStorage.setItem('usuario', nomeEmailConvertido)
+            window.localStorage.setItem('usuarioStorage', [nomeEmailConvertido.id, nomeEmailConvertido.nome, nomeEmailConvertido.senha])
 
             window.location.href = './paginas/paginainicial.html';
         }

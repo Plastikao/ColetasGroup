@@ -135,11 +135,11 @@ a{
 }
 
 #ButtonStatusAmarelo{
-    background-color:#ffa800 ;
+    background-color:#ffa800;
 }
 
 #ButtonStatusVerde{
-    background-color:#00bf63 ;
+    background-color:#00bf63;
 }
 
 /* fim botão e pesquisa */
@@ -210,8 +210,22 @@ p{
     align-items: center;
 }
 
-#mudaCor{
-    background-color: red;
+.mudaCorVermelho{
+    background-color: #eb3939;
+    width: 20%;
+    height: 30px;
+    border-radius: 40px;
+}
+
+.mudaCorAmarelo{
+    background-color: #ffa800;
+    width: 20%;
+    height: 30px;
+    border-radius: 40px;
+}
+
+.mudaCorVerde{
+    background-color: #00bf63;
     width: 20%;
     height: 30px;
     border-radius: 40px;

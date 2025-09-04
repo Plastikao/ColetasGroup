@@ -1,9 +1,11 @@
 const express = require('express');
-const pessoas = require('./usuariosRoutes.js');
+const usuarios = require('./usuariosRoutes.js');
+const projetos = require('./projetosRoutes.js');
 
 module.exports = app => {
     app.use(
         express.json(),
-        pessoas
+        usuarios,
+        projetos
     );
 };

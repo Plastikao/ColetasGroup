@@ -17,6 +17,20 @@ class Controller {
         }
     }
 //#endregion
+
+//#region READ
+    async pegaTodos(req, res) {
+        try {
+            const listaDeRegistro = await this.entidadeService.pegaTodosOsRegistros();
+            return res.status(200).json(listaDeRegistro);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
+//#endregion
+
     /*
     async pegaTodos(req, res) {
         try {

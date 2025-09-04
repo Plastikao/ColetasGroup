@@ -13,6 +13,16 @@ class Services {
 //#endregion
 
 //#region READ
+    async pegaTodosOsRegistros () {
+      return dataSource[this.model].findAll();
+    }
+
+    async pegaUmProjetoPorProprietario(idProprietario) {
+        return dataSource[this.model].findAll({
+            where: { codProprietario: idProprietario }
+        });
+    }
+
     async pegaUmRegistroPorNome(nome) {
         return dataSource[this.model].findOne({
             where: { nome: nome }
