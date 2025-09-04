@@ -33,6 +33,8 @@ async function logarUsuario(nomeOuEmail, senha) {
         }
 
         else {
+            window.localStorage.setItem('usuario', nomeEmailConvertido)
+
             window.location.href = './paginas/paginainicial.html';
         }
     }

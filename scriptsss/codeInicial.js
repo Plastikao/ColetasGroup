@@ -4,15 +4,15 @@ let botaoStatusVerde = document.querySelector('#ButtonStatusVerde')
 let botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo')
 
 botaoStatusVermelho.addEventListener('click', ()=>{
-    mudarContexto(botaoStatusVermelho)
+    mudarContexto(botaoStatusVermelho);
 })
 
 botaoStatusAmarelo.addEventListener('click', ()=>{
-    mudarContexto(botaoStatusAmarelo)
+    mudarContexto(botaoStatusAmarelo);
 })
 
 botaoStatusVerde.addEventListener('click', ()=>{
-    mudarContexto(botaoStatusVerde)
+    mudarContexto(botaoStatusVerde);
 })
 
 
