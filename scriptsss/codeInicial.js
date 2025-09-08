@@ -1,4 +1,4 @@
-//#region CONSTS
+//#region VARIAVEIS
 const proprietario = window.localStorage.getItem('usuarioStorage');
 const idProprietario = proprietario[0];
 const botaoStatus = document.querySelectorAll('.buttonStatus');
@@ -8,6 +8,7 @@ const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
+var statusProjeto = '';
 //#endregion
 
 //#region EVENTS
@@ -25,11 +26,19 @@ botaoStatusVerde.addEventListener('click', ()=>{
 
 
 function mudarContexto(contexto){
-    botaoStatus.forEach(function (contexto){
-        contexto.classList.remove('active')
+    if (!contexto.classList.contains('active')) {
+        botaoStatus.forEach(function (contexto){ contexto.classList.remove('active') });
+
+        contexto.classList.add('active')
+        statusProjeto = contexto.innerHTML;
     }
-    )
-    contexto.classList.add('active')
+    
+    else {
+        botaoStatus.forEach(function (contexto){ contexto.classList.remove('active') });
+        statusProjeto = '';
+    }
+
+    mostraProjetos();
 }
 
 botaoCriarProjeto.addEventListener('click', () => { criarProjeto() })
@@ -67,43 +76,47 @@ async function mostraProjetos() {
     let i = 0;
 
     projetosConvertido.forEach(projeto => {
-        mainBlocos.innerHTML += `
-            <div class="meio_bloco">
-                <section class="bloco_config">
-                    <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
-                </section>
+        if (projeto.status == statusProjeto || statusProjeto == '') {
+            if (projeto) {
+                mainBlocos.innerHTML += `
+                    <div class="meio_bloco">
+                        <section class="bloco_config">
+                            <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
+                        </section>
 
-                <section class="bloco_config branco">
-                </section>
+                        <section class="bloco_config branco">
+                        </section>
 
-                <section class="bloco_config blocoBarra">
-                    <div class="barra" id="barraDentro">
-                        <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
+                        <section class="bloco_config blocoBarra">
+                            <div class="barra" id="barraDentro">
+                                <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
+                            </div>
+
+                            <div id="mudaCor${i}"></div>
+                        </section>
                     </div>
+                `;
+            }
 
-                    <div id="mudaCor${i}"></div>
-                </section>
-            </div>
-        `;
+            let cor = '';
 
-        let cor = '';
+            switch (projeto.status) {
+                case 'Não iniciado':
+                    cor = 'mudaCorVermelho';
+                    break;
 
-        switch (projeto.status) {
-            case 'Não iniciado':
-                cor = 'mudaCorVermelho';
-                break;
+                case 'Em andamento':
+                    cor = 'mudaCorAmarelo';
+                    break;
 
-            case 'Em andamento':
-                cor = 'mudaCorAmarelo';
-                break;
+                case 'Finalizado':
+                    cor = 'mudaCorVerde';
+                    break;
+            }
 
-            case 'Finalizado':
-                cor = 'mudaCorVerde';
-                break;
+            const mudaCor = document.querySelector(`#mudaCor${i}`);
+            mudaCor.classList.add(cor);
         }
-
-        const mudaCor = document.querySelector(`#mudaCor${i}`);
-        mudaCor.classList.add(cor);
 
         i++
     });
