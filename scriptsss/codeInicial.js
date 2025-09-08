@@ -77,26 +77,24 @@ async function mostraProjetos() {
 
     projetosConvertido.forEach(projeto => {
         if (projeto.status == statusProjeto || statusProjeto == '') {
-            if (projeto) {
-                mainBlocos.innerHTML += `
-                    <div class="meio_bloco">
-                        <section class="bloco_config">
-                            <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
-                        </section>
+            mainBlocos.innerHTML += `
+                <div class="meio_bloco">
+                    <section class="bloco_config">
+                        <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
+                    </section>
 
-                        <section class="bloco_config branco">
-                        </section>
+                    <section class="bloco_config branco" id="blocoProjeto${i}">
+                    </section>
 
-                        <section class="bloco_config blocoBarra">
-                            <div class="barra" id="barraDentro">
-                                <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
-                            </div>
+                    <section class="bloco_config blocoBarra">
+                        <div class="barra" id="barraDentro">
+                            <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
+                        </div>
 
-                            <div id="mudaCor${i}"></div>
-                        </section>
-                    </div>
-                `;
-            }
+                        <div id="mudaCor${i}"></div>
+                    </section>
+                </div>
+            `;
 
             let cor = '';
 
@@ -115,10 +113,34 @@ async function mostraProjetos() {
             }
 
             const mudaCor = document.querySelector(`#mudaCor${i}`);
+            const clicaProjeto = document.querySelector(`#blocoProjeto${i}`);
+
+            //alert(clicaProjeto.id);
+            
             mudaCor.classList.add(cor);
+
+            clicaProjeto.addEventListener('click', () => {
+                alert('aaaaaaaaa');
+
+                //window.localStorage('projetoAberto', clicaProjeto.value);
+//
+                //alert(window.localStorage.getItem('projetoAberto'));
+//
+                //window.location.href = 'https://www.youtube.com/';
+            });
         }
 
         i++
     });
     
 }
+
+function clicaProjeto(idProjeto) {
+                alert(idProjeto);
+
+                //window.localStorage('projetoAberto', clicaProjeto.value);
+//
+                //alert(window.localStorage.getItem('projetoAberto'));
+//
+                //window.location.href = 'https://www.youtube.com/';
+};
