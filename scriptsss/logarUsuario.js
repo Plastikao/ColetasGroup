@@ -13,7 +13,7 @@ usuarioLogado();
 function usuarioLogado() {
     const usuario = window.localStorage.getItem('usuarioStorage');
 
-    if (!usuario) {
+    if (usuario != 'null') {
         window.location.href = './paginas/paginainicial.html';
     }
 }
