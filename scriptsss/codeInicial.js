@@ -7,6 +7,7 @@ const botaoStatusVerde = document.querySelector('#ButtonStatusVerde');
 const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
+const botaoSair = document.querySelector('#id_botao_sair');
 //#endregion
 
 //#region EVENTS
@@ -32,6 +33,8 @@ function mudarContexto(contexto){
 }
 
 botaoCriarProjeto.addEventListener('click', () => { criarProjeto() })
+
+botaoSair.addEventListener('click', () => { window.localStorage.setItem('usuarioStorage', null) });
 //#endregion
 
 mostraProjetos();

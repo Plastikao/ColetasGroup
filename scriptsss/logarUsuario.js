@@ -8,6 +8,16 @@ const senha = document.querySelector('#senha_section');
 botaoLogin.addEventListener('click', () => {logarUsuario(nomeOuEmail.value, senha.value)})
 //#endregion
 
+usuarioLogado();
+
+function usuarioLogado() {
+    const usuario = window.localStorage.getItem('usuarioStorage');
+
+    if (!usuario) {
+        window.location.href = './paginas/paginainicial.html';
+    }
+}
+
 async function logarUsuario(nomeOuEmail, senha) {
     if (nomeOuEmail.length > 0 && senha.length > 0) {
         let tempNomeEmail = '';
