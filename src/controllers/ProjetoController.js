@@ -12,9 +12,37 @@ class ProjetoController extends Controller {
         const { idProprietario } = req.params;
 
         try {
-            const projetoPesquisa = await projetoServices.pegaProjetoPorProprietario(String(idProprietario));
+            const projetoPesquisa = await projetoServices.pegaProjetoPorProprietario(Number(idProprietario));
 
             return res.status(200).json(projetoPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
+
+    async pegaProjetoPorId(req, res) {
+        const { idProjeto } = req.params;
+
+        try {
+            const projetoPesquisa = await projetoServices.pegaProjetoPorIdAberto(Number(idProjeto));
+
+            return res.status(200).json(projetoPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
+
+    async pegaBlocos(req, res) {
+        const { idProjeto } = req.params;
+
+        try {
+            const blocoPesquisa = await projetoServices.pegaBlocoPorProjeto(Number(idProjeto));
+
+            return res.status(200).json(blocoPesquisa);
         }
         
         catch (erro) {

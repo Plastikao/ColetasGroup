@@ -83,7 +83,7 @@ async function mostraProjetos() {
                         <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
                     </section>
 
-                    <section class="bloco_config branco" id="blocoProjeto${i}">
+                    <section class="bloco_config branco" id="${projeto.id}">
                     </section>
 
                     <section class="bloco_config blocoBarra">
@@ -113,24 +113,23 @@ async function mostraProjetos() {
             }
 
             const mudaCor = document.querySelector(`#mudaCor${i}`);
-            const clicaProjeto = document.querySelector(`#blocoProjeto${i}`);
 
             //alert(clicaProjeto.id);
             
             mudaCor.classList.add(cor);
-
-            clicaProjeto.addEventListener('click', () => {
-                alert('aaaaaaaaa');
-
-                //window.localStorage('projetoAberto', clicaProjeto.value);
-//
-                //alert(window.localStorage.getItem('projetoAberto'));
-//
-                //window.location.href = 'https://www.youtube.com/';
-            });
         }
 
         i++
+    });
+    
+    const blocosProjetos = document.querySelectorAll('.bloco_config');
+
+    blocosProjetos.forEach(bloco => {
+        bloco.addEventListener('click', () => {
+            window.localStorage.setItem('projetoAberto', bloco.id);
+
+            window.location.href = './paginaProjetos.html';
+        });
     });
     
 }

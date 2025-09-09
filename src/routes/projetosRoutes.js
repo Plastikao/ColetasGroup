@@ -7,11 +7,8 @@ const router = Router();
 
 router.get('/projetos', (req, res) => projetoController.pegaTodos(req, res));
 router.get('/projetos/:idProprietario', (req, res) => projetoController.pegaProjeto(req, res));
+router.get('/projetos/busca/:idProjeto', (req, res) => projetoController.pegaProjetoPorId(req, res));
 router.post('/projetos', (req, res) => projetoController.criaNovo(req, res));
-
-//router.get('/projetos/nome/:nome', (req, res) => projetoController.pegaNome(req, res));
-//router.get('/projetos/email/:email', (req, res) => projetoController.pegaEmail(req, res));
-//router.get('/projetos/senha/:senha', (req, res) => projetoController.pegaSenha(req, res));
 
 //router.get('/pessoas', (req, res) => pessoaController.pegaTodos(req, res));
 //router.get('/pessoas/:id', (req, res) => pessoaController.pegaUmPorId(req, res));

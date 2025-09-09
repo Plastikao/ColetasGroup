@@ -1,3 +1,4 @@
+const { ConnectionCheckOutFailedEvent } = require('mongodb');
 const dataSource = require('../models');
 const { Op } = require('sequelize');
 
@@ -20,6 +21,18 @@ class Services {
     async pegaUmProjetoPorProprietario(idProprietario) {
         return dataSource[this.model].findAll({
             where: { codProprietario: idProprietario }
+        });
+    }
+
+    async pegaUmProjetoPorId(idProjeto) {
+        return dataSource[this.model].findOne({
+            where: { id: idProjeto }
+        });
+    }
+
+    async pegaTodosOsBlocos(idProjeto) {
+        return dataSource[this.model].findAll({
+            where: { codProjeto: idProjeto }
         });
     }
 
