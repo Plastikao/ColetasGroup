@@ -1,15 +1,15 @@
 const Services = require('./Services.js');
 
-class BlocoServices extends Services {
+class ClasseServices extends Services {
     constructor() {
-        super('Blocos');
+        super('Classes');
     }
 
-    async pegaBlocoPorProjeto(idProjeto) {
-        const blocoPesquisa = await super.pegaTodosOsBlocos(idProjeto);
+    async pegaClassePorBloco(idBloco) {
+        const classePesquisa = await super.pegaTodasAsClasses(idBloco);
 
-        return blocoPesquisa;
+        return classePesquisa;
     }
 }
 
-module.exports = BlocoServices;
+module.exports = ClasseServices;

@@ -5,19 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Classes extends Model {
     static associate(models) {
-      Classes.hasMany(models.Classe_Checkbox, {
-        foreignKey: 'codClasse'
-      });
-
-      Classes.hasMany(models.Classe_Texto, {
-        foreignKey: 'codClasse'
-      });
-
-      Classes.hasMany(models.Classe_Imagem, {
-        foreignKey: 'codClasse'
-      });
-
-      Classes.hasMany(models.Classe_Link, {
+      Classes.hasMany(models.Conteudo_Classe, {
         foreignKey: 'codClasse'
       });
     }
@@ -25,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   Classes.init({
     nomeClasse: DataTypes.STRING,
     ordemClasse: DataTypes.INTEGER,
+    tipoClasse: DataTypes.STRING,
     codBloco: DataTypes.INTEGER
   }, {
     sequelize,

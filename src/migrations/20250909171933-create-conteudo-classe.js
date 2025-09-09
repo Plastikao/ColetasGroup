@@ -2,23 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('classe_link', {
+    await queryInterface.createTable('conteudoClasse', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nomeLink: {
-        allowNull: false,
+      nomeConteudo: {
         type: Sequelize.STRING
       },
-      ordemLink: {
+      ordemConteudo: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      link: {
-        allowNull: false,
+      conteudo: {
         type: Sequelize.STRING
       },
       codClasse: {
@@ -37,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('classe_link');
+    await queryInterface.dropTable('conteudoClasse');
   }
 };

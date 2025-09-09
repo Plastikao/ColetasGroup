@@ -36,6 +36,12 @@ class Services {
         });
     }
 
+    async pegaTodasAsClasses(idBloco) {
+        return dataSource[this.model].findAll({
+            where: { codBloco: idBloco }
+        });
+    }
+
     async pegaUmRegistroPorNome(nome) {
         return dataSource[this.model].findOne({
             where: { nome: nome }

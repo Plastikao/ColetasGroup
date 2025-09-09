@@ -2,29 +2,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('classe_checkbox', {
+    await queryInterface.createTable('classes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nomeCheckbox: {
+      nomeClasse: {
+        type: Sequelize.STRING
+      },
+      ordemClasse: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      tipoClasse: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      ordemCheckbox: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      checked: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN
-      },
-      codClasse: {
+      codBloco: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'classes', key: 'id' }
+        references: { model: 'blocos', key: 'id' }
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('classe_checkbox');
+    await queryInterface.dropTable('classes');
   }
 };
