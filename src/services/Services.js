@@ -1,87 +1,90 @@
-const { ConnectionCheckOutFailedEvent } = require('mongodb');
-const dataSource = require('../models');
-const { Op } = require('sequelize');
+const { ConnectionCheckOutFailedEvent } = require('mongodb')
+const dataSource = require('../models')
+const { Op } = require('sequelize')
 
 class Services {
     constructor(nomeDoModel) {
-        this.model = nomeDoModel;
+        this.model = nomeDoModel
     }
 
-//#region CREATE
+    //#region CREATE
     async criaRegistro(dadosDoRegistro) {
-        return dataSource[this.model].create(dadosDoRegistro);
+        return dataSource[this.model].create(dadosDoRegistro)
     }
-//#endregion
+    //#endregion
 
-//#region READ
-    async pegaTodosOsRegistros () {
-      return dataSource[this.model].findAll();
+    //#region READ
+    async pegaTodosOsRegistros() {
+        return dataSource[this.model].findAll()
     }
 
     async pegaUmProjetoPorProprietario(idProprietario) {
         return dataSource[this.model].findAll({
-            where: { codProprietario: idProprietario }
-        });
+            where: { codProprietario: idProprietario },
+        })
     }
 
     async pegaUmProjetoPorId(idProjeto) {
         return dataSource[this.model].findOne({
-            where: { id: idProjeto }
-        });
+            where: { id: idProjeto },
+        })
     }
 
     async pegaTodosOsBlocos(idProjeto) {
         return dataSource[this.model].findAll({
-            where: { codProjeto: idProjeto }
-        });
+            where: { codProjeto: idProjeto },
+        })
     }
 
     async pegaTodasAsClasses(idBloco) {
         return dataSource[this.model].findAll({
-            where: { codBloco: idBloco }
-        });
+            where: { codBloco: idBloco },
+        })
     }
 
     async pegaTodosOsConteudos(idClasse) {
         return dataSource[this.model].findAll({
-            where: { codClasse: idClasse }
-        });
+            where: { codClasse: idClasse },
+        })
     }
 
     async pegaUmRegistroPorNome(nome) {
         return dataSource[this.model].findOne({
-            where: { nome: nome }
-        });
+            where: { nome: nome },
+        })
     }
 
     async pegaUmRegistroPorEmail(email) {
         return dataSource[this.model].findOne({
-            where: { email: email }
-        });
+            where: { email: email },
+        })
     }
 
     async pegaUmRegistroPorSenha(senha) {
         return dataSource[this.model].findOne({
-            where: { senha: senha }
-        });
+            where: { senha: senha },
+        })
     }
-//#endregion
+    //#endregion
 
-//#region UPDATE
+    //#region UPDATE
     async atualizaRegistro(dadosAtualizados, id) {
-        const listadeRegistrosAtualizados = dataSource[this.model].update(dadosAtualizados, {
-          where: { id: id }
-        });
-        
+        const listadeRegistrosAtualizados = dataSource[this.model].update(
+            dadosAtualizados,
+            {
+                where: { id: id },
+            }
+        )
+
         if (listadeRegistrosAtualizados[0] === 0) {
-          return false;
+            return false
         }
 
-        return true;
+        return true
     }
-//#endregion
+    //#endregion
 
-  /*
+    /*
   async pegaTodosOsRegistros () {
     return dataSource[this.model].findAll();
   }
@@ -113,4 +116,4 @@ class Services {
   }*/
 }
 
-module.exports = Services;
+module.exports = Services
