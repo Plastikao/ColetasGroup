@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Gravitas+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+:root{
+    --fonte-: 1.2rem;
+    --corDeFundo-: #292d2e;
+    --TextoHeader-:#f6f6f6;
+    --preto-: #000000;
+}
+
+
+body, html{
+    background-color: var(--corDeFundo-);
+
+    height: 100%;
+}
+
+h1{
+    color: white;
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+}
+
+.header__principal{
+
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 80px 0px;
+}
+
+#barraProgresso{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    background-color: gray;
+    width: 500px;
+    height: 45px;
+    border-radius: 50px;
+    overflow: hidden;
+    & h3{
+        position: absolute;
+        transform: translateX(160px);
+        color: white;
+        font-size: 1.4rem;
+    }
+}
+
+#progresso{
+    background: linear-gradient(to right, #f45507, #ffb001); 
+    height: 100%;
+    width: 100%;
+}
+
+.div__main-projetos{
+    width: 400px;
+    background-color: #d9d9d9;
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+}
+
+.main__principal{
+    padding: 10px 17rem;
+    gap: 10px;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr 1fr; 
+    align-items: start;
+    
+}
+
+.main__botao{
+
+    background: linear-gradient(to right, #f45507, #ffb001);
+    color: var(--TextoHeader-);
+    font-size: var(--fonte-);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 40px;
+    margin-left: 17rem;
+    font-weight: bolder;
+}
+
+.input__texto{
+    border: none;
+    text-align: center;
+    color: black;
+    height: 42px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+
+.botao__main_projetos{
+    background-color: #00bf63;
+    border: none;
+    width: 40%;
+    height: 40px;
+    color: #d9d9d9;
+    font-size: 1rem;
+    border-radius: 11px;
+    
+}
+.botao__main_projetos-dentro{
+     background-color: #00bf63;
+    border: none;
+     font-size: 1rem;
+    border-radius: 5px;
+    color:white;
+    padding: 0.1px 10px;
+    font-weight: bolder;
+    font-size: 2rem;
+
+
+}
+.input__texto-dentro{
+  
+display: flex;
+flex: 1;
+outline: none;
+ height: 100%;
+ border: none;
+ font-size: 1rem;
+}
+a{
+    color: black;
+}
+.main__projetos-dentro{
+    background-color: white;
+    display: flex;
+        justify-content: space-between;
+        padding: 0px 10px;
+        height: 50px;
+        align-items: center;
+        border-radius: 10px;
+       
+}
+
+.mains__projetos-dentro-2{
+    display: flex;
+    flex: 1;
+    background-color: #b4b2b296 ;
+     padding: 10px;
+     flex-direction: column;
+     gap: 10px;
+     border-radius: 10px;
+
+}
+.projeto__checkbox{
+display: flex;
+flex: 1;
+background-color: white;
+padding: 10px;
+border-radius: 5px;
+ gap: 10px;
+
+
+
+}
+
+.checkbox{
+    transform: scale(1.5);    
+}
