@@ -9,6 +9,7 @@ router.get('/projetos', (req, res) => projetoController.pegaTodos(req, res));
 router.get('/projetos/:idProprietario', (req, res) => projetoController.pegaProjeto(req, res));
 router.get('/projetos/busca/:idProjeto', (req, res) => projetoController.pegaProjetoPorId(req, res));
 router.post('/projetos', (req, res) => projetoController.criaNovo(req, res));
+router.put('/projetos/:id', (req, res) => projetoController.atualiza(req, res));
 
 //router.get('/pessoas', (req, res) => pessoaController.pegaTodos(req, res));
 //router.get('/pessoas/:id', (req, res) => pessoaController.pegaUmPorId(req, res));

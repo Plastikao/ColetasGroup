@@ -1,6 +1,11 @@
 //#region VARIAVEIS
 const projetoAberto = window.localStorage.getItem('projetoAberto');
-const nomeHeaderProjeto = document.querySelector('.header__h1');
+
+const nomeHeaderProjeto = document.querySelector('#id_header__h1');
+nomeHeaderProjeto.hidden = false;
+
+const nomeProjetoAlterar = document.querySelector('#id_nomeProjeto');
+
 const mainPrincipal = document.querySelector('.main__principal');
 const botaoCriarBloco = document.querySelector('.main__botao');
 
@@ -12,6 +17,8 @@ const blocosConvertido = await blocos.json();
 //#endregion
 
 //#region EVENTS
+nomeHeaderProjeto.addEventListener('click', () => { mostraInputNomeProjeto() });
+nomeProjetoAlterar.addEventListener('blur', () => { editaNomeProjeto() });
 botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
@@ -118,6 +125,7 @@ async function criarConteudo(idClasse, tipoClasse) {
 }
 //#endregion
 
+//#region ALTERA_E_CRIA_INFORMACOES
 async function procuraClasse(blocoDaClasse) {
     const classes = await fetch(`http://localhost:3000/classes/busca/${blocoDaClasse.id}`);
     const classeConvertido = await classes.json();
@@ -133,6 +141,7 @@ async function procuraClasse(blocoDaClasse) {
                     <input
                         type="text"
                         class="input__texto-dentro"
+                        id="${classe.id}"
                         value="${classe.nomeClasse}"
                     />
                     <button class="botao__main_projetos-dentro ${classe.id} ${classe.tipoClasse}">+</button>
@@ -140,9 +149,6 @@ async function procuraClasse(blocoDaClasse) {
                 ${mostraConteudo}
             </div>
         `
-        //<div class="mains__projetos-dentro-2">
-        //    ${mostraConteudo}
-        //</div>
     };
 
     return mostraClasse;
@@ -181,7 +187,7 @@ async function procuraConteudo(classeDoConteudo) {
             mostraConteudo += `
                 <div class="projeto__checkbox">
                     <label for="projeto__checkbox">
-                    <img src="${conteudo.conteudo}" alt="imagens"/>${conteudo.nomeConteudo}</label>
+                    <img src="${conteudo.conteudo}"/>${conteudo.nomeConteudo}</label>
                 </div>
             `
         }
@@ -203,10 +209,66 @@ async function procuraConteudo(classeDoConteudo) {
     return mostraConteudo;
 }
 
+function mostraInputNomeProjeto() {
+    nomeHeaderProjeto.hidden = true;
+    nomeProjetoAlterar.hidden = false;
+    nomeProjetoAlterar.focus() = true;
+}
+
+async function editaNomeProjeto() {
+    if (nomeProjetoAlterar.value != nomeHeaderProjeto.textContent) {
+        await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                tituloProjeto: nomeProjetoAlterar.value
+            })
+        });
+
+        mostraProjeto();
+    }
+    
+
+    nomeHeaderProjeto.hidden = false;
+    nomeProjetoAlterar.hidden = true;
+}
+
+async function editarNomeBloco(bloco) {
+    await fetch(`http://localhost:3000/blocos/${bloco.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeBloco: bloco.value
+        })
+    });
+
+    mostraProjeto();
+}
+
+async function editarNomeClasse(classe) {
+    await fetch(`http://localhost:3000/classes/${classe.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeClasse: classe.value
+        })
+    });
+
+    mostraProjeto();
+}
+//#endregion
+
 mostraProjeto();
 
 async function mostraProjeto() {
     nomeHeaderProjeto.innerHTML = projetoConvertido.tituloProjeto;
+    nomeProjetoAlterar.value = projetoConvertido.tituloProjeto;
 
     mainPrincipal.innerHTML = '';
     
@@ -217,7 +279,7 @@ async function mostraProjeto() {
 
         mainPrincipal.innerHTML += `
             <div class="div__main-projetos bloco${i}">
-                <input type="text" class="input__texto" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
+                <input type="text" class="input__texto" id="${bloco.id}" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
                 <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
                 ${mostraClasse}
             </div>
@@ -226,6 +288,7 @@ async function mostraProjeto() {
         i++;
     };
 
+    // BOTÕES PARA ADICIONAR CLASSE E CONTEÚDO //
     const botaoCriarClasse = document.querySelectorAll('.botao__main_projetos');
     const botaoCriarConteudo = document.querySelectorAll('.botao__main_projetos-dentro');
 
@@ -241,4 +304,16 @@ async function mostraProjeto() {
 
         botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) })
     })
+    
+    // INPUT PARA RENOMEAR BLOCO E CLASSE //
+    const nomeBloco = document.querySelectorAll('.input__texto');
+    const nomeClasse = document.querySelectorAll('.input__texto-dentro');
+
+    nomeBloco.forEach(bloco => {
+        bloco.addEventListener('change', () => { editarNomeBloco(bloco) })
+    });
+
+    nomeClasse.forEach(classe => {
+        classe.addEventListener('change', () => { editarNomeClasse(classe) })
+    });
 }

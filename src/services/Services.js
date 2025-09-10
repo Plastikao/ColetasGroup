@@ -67,6 +67,20 @@ class Services {
     }
 //#endregion
 
+//#region UPDATE
+    async atualizaRegistro(dadosAtualizados, id) {
+        const listadeRegistrosAtualizados = dataSource[this.model].update(dadosAtualizados, {
+          where: { id: id }
+        });
+        
+        if (listadeRegistrosAtualizados[0] === 0) {
+          return false;
+        }
+
+        return true;
+    }
+//#endregion
+
   /*
   async pegaTodosOsRegistros () {
     return dataSource[this.model].findAll();
