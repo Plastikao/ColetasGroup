@@ -1,9 +1,17 @@
 const express = require('express');
-const pessoas = require('./pessoasRoutes.js');
+const usuarios = require('./usuariosRoutes.js');
+const projetos = require('./projetosRoutes.js');
+const blocos = require('./blocosRoutes.js');
+const classes = require('./classesRoutes.js');
+const conteudos = require('./conteudosRoutes.js');
 
 module.exports = app => {
-  app.use(
-    express.json(),
-    pessoas
-  );
+    app.use(
+        express.json(),
+        usuarios,
+        projetos,
+        blocos,
+        classes,
+        conteudos
+    );
 };

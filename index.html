@@ -5,16 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script defer src="script.js"></script>
+    <script defer type="module" src="./scriptsss/logarUsuario.js"></script>
 </head>
 <body>
     <section class="section_class">
         <h1>Seja bem-vindo!</h1>
-        <p>Não possui uma conta ainda? <br><span><a href="./paginas/telaRegistro.html">Registre-se</a></span></p>  <!-- span registro que leva para pagina registro -->
+
+        <p>Não possui uma conta ainda?<br><span><a href="./paginas/telaRegistro.html">Registre-se</a></span></p>  <!-- span registro que leva para pagina registro -->
         <input type="text" class="barra_section" id="usuario_section" placeholder="Seu email ou usuário">
+        
         <input type="password" class="barra_section" id="senha_section" placeholder="Sua senha">
         <p>Esqueceu sua <span><a href="./paginas/trocarSenha.html">senha</a></span>? </p>  <!-- span senha que leva para pagina senha -->
-         <a href="./paginas/paginainicial.html"><button>Entrar</button> </a>
+        
+        <input type="submit" value="Entrar" id="id_botao_login">
     </section>
 </body>
 </html>

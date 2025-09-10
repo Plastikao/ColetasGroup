@@ -17,7 +17,6 @@
 
 body, html{
     background-color: var(--corDeFundo-);
-
     height: 100%;
 }
 
@@ -28,8 +27,6 @@ h1{
 }
 
 .header__principal{
-
-
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -48,6 +45,7 @@ h1{
     height: 45px;
     border-radius: 50px;
     overflow: hidden;
+
     & h3{
         position: absolute;
         transform: translateX(160px);
@@ -79,11 +77,9 @@ h1{
     grid-template-rows: auto auto;
     grid-template-columns: 1fr 1fr 1fr; 
     align-items: start;
-    
 }
 
 .main__botao{
-
     background: linear-gradient(to right, #f45507, #ffb001);
     color: var(--TextoHeader-);
     font-size: var(--fonte-);
@@ -114,62 +110,58 @@ h1{
     
 }
 .botao__main_projetos-dentro{
-     background-color: #00bf63;
+    background-color: #00bf63;
     border: none;
-     font-size: 1rem;
+    font-size: 1rem;
     border-radius: 5px;
     color:white;
     padding: 0.1px 10px;
     font-weight: bolder;
     font-size: 2rem;
-
-
 }
+
 .input__texto-dentro{
-  
-display: flex;
-flex: 1;
-outline: none;
- height: 100%;
- border: none;
- font-size: 1rem;
+    display: flex;
+    flex: 1;
+    outline: none;
+    height: 100%;
+    border: none;
+    font-size: 1rem;
 }
+
 a{
     color: black;
 }
+
 .main__projetos-dentro{
     background-color: white;
     display: flex;
-        justify-content: space-between;
-        padding: 0px 10px;
-        height: 50px;
-        align-items: center;
-        border-radius: 10px;
-       
+    justify-content: space-between;
+    padding: 0px 10px;
+    height: 50px;
+    align-items: center;
+    border-radius: 10px;
 }
 
 .mains__projetos-dentro-2{
     display: flex;
     flex: 1;
     background-color: #b4b2b296 ;
-     padding: 10px;
-     flex-direction: column;
-     gap: 10px;
-     border-radius: 10px;
-
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
 }
+
 .projeto__checkbox{
-display: flex;
-flex: 1;
-background-color: white;
-padding: 10px;
-border-radius: 5px;
- gap: 10px;
-
-
-
+    display: flex;
+    flex: 1;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
 }
 
-.checkbox{
+.conteudo_checkbox{
     transform: scale(1.5);    
 }
