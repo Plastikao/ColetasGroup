@@ -65,8 +65,6 @@ async function criarClasse(idBloco) {
     });
 
     async function insertClasse(nome, tipo) {
-        console.log(`\n\n\n${idBloco}\n\n\n`);
-
         const classes = await fetch(`http://localhost:3000/classes/busca/${idBloco}`);
         const classesConvertido = await classes.json();
 
@@ -74,7 +72,6 @@ async function criarClasse(idBloco) {
         
         for(i = 0; i < classesConvertido.length; i++) {};
 
-        
         await fetch('http://localhost:3000/classes', {
             method: 'POST',
             headers: {
@@ -93,109 +90,155 @@ async function criarClasse(idBloco) {
         mostraProjeto();
     }
 }
+
+async function criarConteudo(idClasse, tipoClasse) {
+    const conteudo = await fetch(`http://localhost:3000/conteudos/busca/${idClasse}`);
+    const conteudoConvertido = await conteudo.json();
+
+    let i = 0;
+        
+    for(i = 0; i < conteudoConvertido.length; i++) {};
+
+    await fetch('http://localhost:3000/conteudos', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeConteudo: 'Nova tarefa',
+            ordemConteudo: i,
+            conteudo: '',
+            codClasse: idClasse,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        })
+    });
+
+    mostraProjeto();
+}
 //#endregion
 
-async function procuraClasse(mostraClasse, blocoClasse) {
-    const classes = await fetch(`http://localhost:3000/classes/busca/${blocoClasse.id}`);
+async function procuraClasse(blocoDaClasse) {
+    const classes = await fetch(`http://localhost:3000/classes/busca/${blocoDaClasse.id}`);
     const classeConvertido = await classes.json();
 
-    classeConvertido.forEach(classe => {
-        if (classe.tipoClasse == 'texto') {
-            mostraClasse += `
-                <div>
-                    <div class="main__projetos-dentro">
-                        <input
-                            type="text"
-                            class="input__texto-dentro"
-                            value="${classe.nomeClasse}"
-                        />
-                        <button class="botao__main_projetos-dentro">+</button>
-                    </div>
-                </div>
-            `
-        }
+    let mostraClasse = '';
 
-        else if (classe.tipoClasse == 'checkbox') {
-            mostraClasse += `
-                <div>
-                    <div class="main__projetos-dentro">
-                        <input
-                            type="text"
-                            class="input__texto-dentro"
-                            value="${classe.nomeClasse}"
-                        />
-                        <button class="botao__main_projetos-dentro">+</button>
-                    </div>
-                </div>
-            `
-        }
+    for(const classe of classeConvertido) {
+        let mostraConteudo = await procuraConteudo(classe);
 
-        else if (classe.tipoClasse == 'link') {
-            mostraClasse += `
-                <div>
-                    <div class="main__projetos-dentro">
-                        <input
-                            type="text"
-                            class="input__texto-dentro"
-                            value="${classe.nomeClasse}"
-                        />
-                        <button class="botao__main_projetos-dentro">+</button>
-                    </div>
+        mostraClasse += `
+            <div>
+                <div class="main__projetos-dentro">
+                    <input
+                        type="text"
+                        class="input__texto-dentro"
+                        value="${classe.nomeClasse}"
+                    />
+                    <button class="botao__main_projetos-dentro ${classe.id} ${classe.tipoClasse}">+</button>
                 </div>
-            `
-        }
-
-        else if (classe.tipoClasse == 'imagem') {
-            mostraClasse += `
-                <div>
-                    <div class="main__projetos-dentro">
-                        <input
-                            type="text"
-                            class="input__texto-dentro"
-                            value="${classe.nomeClasse}"
-                        />
-                        <button class="botao__main_projetos-dentro">+</button>
-                    </div>
-                </div>
-            `
-        }
-    });
+                ${mostraConteudo}
+            </div>
+        `
+        //<div class="mains__projetos-dentro-2">
+        //    ${mostraConteudo}
+        //</div>
+    };
 
     return mostraClasse;
 }
 
+async function procuraConteudo(classeDoConteudo) {
+    const conteudo = await fetch(`http://localhost:3000/conteudos/busca/${classeDoConteudo.id}`);
+    const conteudoConvertido = await conteudo.json();
+
+    let mostraConteudo = '';
+
+    if (conteudoConvertido.length > 0) {
+        mostraConteudo += '<div class="mains__projetos-dentro-2">'
+    }
+
+    for(const conteudo of conteudoConvertido) {
+        if (classeDoConteudo.tipoClasse == 'checkbox') {
+            mostraConteudo += `
+                <div class="projeto__checkbox">
+                    <input type="checkbox" class="conteudo_checkbox"/>
+                    <label for="projeto__checkbox">${conteudo.nomeConteudo}</label>
+                </div>
+            `
+        }
+        
+        else if (classeDoConteudo.tipoClasse == 'link') {
+            mostraConteudo += `
+                <div class="projeto__checkbox">
+                    <label for="projeto__checkbox">
+                    <a href="${conteudo.conteudo}">${conteudo.nomeConteudo}</a></label>
+                </div>
+            `
+        }
+
+        else if (classeDoConteudo.tipoClasse == 'imagem') {
+            mostraConteudo += `
+                <div class="projeto__checkbox">
+                    <label for="projeto__checkbox">
+                    <img src="${conteudo.conteudo}" alt="imagens"/>${conteudo.nomeConteudo}</label>
+                </div>
+            `
+        }
+
+        else if (classeDoConteudo.tipoClasse == 'texto') {
+            mostraConteudo += `
+                <div class="projeto__checkbox">
+                    <label for="projeto__checkbox">
+                    <span>${conteudo.nomeConteudo}</span></label>
+                </div>
+            `
+        }
+    };
+
+    if (conteudoConvertido.length > 0) {
+        mostraConteudo += '</div>'
+    }
+
+    return mostraConteudo;
+}
+
 mostraProjeto();
 
-function mostraProjeto() {
+async function mostraProjeto() {
     nomeHeaderProjeto.innerHTML = projetoConvertido.tituloProjeto;
 
     mainPrincipal.innerHTML = '';
     
     let i = 0;
 
-    blocosConvertido.forEach(async bloco => {
-        for(bloco of blocosConvertido) {
-            var mostraClasse = '';
+    for(const bloco of blocosConvertido) {
+        var mostraClasse = await procuraClasse(bloco);
 
-            mostraClasse = await procuraClasse(mostraClasse, bloco);
-
-            mainPrincipal.innerHTML += `
-                <div class="div__main-projetos bloco${i}">
-                    <input type="text" class="input__texto" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
-                    <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
-                    ${mostraClasse}
-                </div>
-            `;
-        }
-
-        const botaoCriarClasse = document.querySelectorAll('.botao__main_projetos');
-
-        botaoCriarClasse.forEach(botao => {
-            const idBloco = botao.classList[1];
-            botao.addEventListener('click', () => { criarClasse(idBloco) });
-        });
+        mainPrincipal.innerHTML += `
+            <div class="div__main-projetos bloco${i}">
+                <input type="text" class="input__texto" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
+                <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
+                ${mostraClasse}
+            </div>
+        `;
         
-
         i++;
+    };
+
+    const botaoCriarClasse = document.querySelectorAll('.botao__main_projetos');
+    const botaoCriarConteudo = document.querySelectorAll('.botao__main_projetos-dentro');
+
+    botaoCriarClasse.forEach(botao => {
+        const idBloco = botao.classList[1];
+
+        botao.addEventListener('click', () => { criarClasse(idBloco) });
     });
+
+    botaoCriarConteudo.forEach(botao => {
+        const idClasse = botao.classList[1];
+        const tipoClasse = botao.classList[2];
+
+        botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) })
+    })
 }

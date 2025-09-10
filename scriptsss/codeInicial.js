@@ -122,7 +122,7 @@ async function mostraProjetos() {
         i++
     });
     
-    const blocosProjetos = document.querySelectorAll('.bloco_config');
+    const blocosProjetos = document.querySelectorAll('.branco');
 
     blocosProjetos.forEach(bloco => {
         bloco.addEventListener('click', () => {
@@ -131,15 +131,4 @@ async function mostraProjetos() {
             window.location.href = './paginaProjetos.html';
         });
     });
-    
 }
-
-function clicaProjeto(idProjeto) {
-                alert(idProjeto);
-
-                //window.localStorage('projetoAberto', clicaProjeto.value);
-//
-                //alert(window.localStorage.getItem('projetoAberto'));
-//
-                //window.location.href = 'https://www.youtube.com/';
-};
