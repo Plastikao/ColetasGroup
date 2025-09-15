@@ -3,22 +3,41 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link rel="stylesheet" href="../css/projetoPagina.css"/>
+        <title>Projetos</title>
+        <link rel="stylesheet" href="../css/projetoPagina.css" />
         <script defer type="module" src="../scriptsss/codeProjeto.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+            integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
     </head>
     <body>
+        <a href="paginainicial.html"><i class="fa-solid fa-house"></i></a>
         <header class="header__principal">
-            <input type="text" name="nomeProjeto" class="header__h1" id="id_nomeProjeto" hidden>
-            <h1 class="header__h1" id="id_header__h1" hidden></h1>
+            <div class="texto__emcima_da_barra">
+                <div id="botao__renomear">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <input
+                    type="text"
+                    name="nomeProjeto"
+                    class="header__h1"
+                    id="id_nomeProjeto"
+                    hidden
+                />
+                <h1 class="header__h1" id="id_header__h1" hidden></h1>
+                <div id="bloco__status"></div>
+            </div>
             <div id="barraProgresso">
                 <h3>Concluido 100%</h3>
                 <div id="progresso"></div>
             </div>
         </header>
         <button class="main__botao">Criar novo bloco</button>
-        <main class="main__principal">
-        </main>
+        <main class="main__principal"></main>
     </body>
 </html>

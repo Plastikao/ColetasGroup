@@ -13,6 +13,7 @@
 }
 
 
+
 body{
     background: linear-gradient(to bottom, #000000, var(--corDeFundo-) , #000000);
     overflow: hidden;   /* desativa scroll horizontal e vertical */
@@ -20,6 +21,9 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#pai{
+    border: white 2px solid;
 }
 
 .section_class{
@@ -38,6 +42,8 @@ gap: 30px;
 text-align: center;
 border-radius: 17px;
 padding: 100px 0;
+
+
 }
 
 .section_class h1{
