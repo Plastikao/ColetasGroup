@@ -50,5 +50,5 @@ class UsuarioController extends Controller {
         }
     }
 }
-
+    
 module.exports = UsuarioController;
