@@ -10,6 +10,12 @@ class ConteudoServices extends Services {
 
         return conteudoPesquisa;
     }
+
+    async pegaConteudoPorId(idConteudo) {
+        const conteudoPesquisa = await super.pegaUmConteudoAberto(idConteudo);
+
+        return conteudoPesquisa;
+    }
 }
 
 module.exports = ConteudoServices;

@@ -10,6 +10,12 @@ class ClasseServices extends Services {
 
         return classePesquisa;
     }
+
+    async pegaClassePorConteudo(codClasse) {
+        const classePesquisa = await super.pegaClassePorConteudoAberto(codClasse);
+
+        return classePesquisa;
+    }
 }
 
 module.exports = ClasseServices;

@@ -6,6 +6,7 @@ const classeController = new ClasseController();
 const router = Router();
 
 router.get('/classes/busca/:idBloco', (req, res) => classeController.pegaClasses(req, res));
+router.get('/classes/apresenta/:codClasse', (req, res) => classeController.pegaUmaClasse(req, res));
 router.post('/classes', (req, res) => classeController.criaNovo(req, res));
 router.put('/classes/:id', (req, res) => classeController.atualiza(req, res));
 

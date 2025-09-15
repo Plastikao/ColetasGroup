@@ -153,7 +153,7 @@ a{
     border-radius: 10px;
 }
 
-.projeto__checkbox{
+.projeto__checkbox, .projeto__link, .projeto__imagem, .projeto__texto{
     display: flex;
     flex: 1;
     background-color: white;

@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     nomeConteudo: DataTypes.STRING,
     ordemConteudo: DataTypes.INTEGER,
     conteudo: DataTypes.STRING,
-    codClasse: DataTypes.INTEGER
+    codClasse: DataTypes.INTEGER,
+    descricaoConteudo: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Conteudo_Classe',

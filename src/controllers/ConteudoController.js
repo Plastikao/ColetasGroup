@@ -21,6 +21,20 @@ class ConteudoController extends Controller {
             console.log(`Seu erro foi: ${erro}`);
         }
     }
+
+    async pegaUmConteudo(req, res) {
+        const { idConteudo } = req.params;
+
+        try {
+            const conteudoPesquisa = await conteudoServices.pegaConteudoPorId(Number(idConteudo));
+
+            return res.status(200).json(conteudoPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
 }
 
 module.exports = ConteudoController;
