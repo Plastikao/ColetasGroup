@@ -329,6 +329,10 @@ function mostraInputNomeProjeto() {
 }
 
 async function editaNomeProjeto() {
+    if (nomeProjetoAlterar.value.length < 1) {
+        return;
+    }
+
     if (nomeProjetoAlterar.value != nomeHeaderProjeto.textContent) {
         await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
             method: 'PUT',

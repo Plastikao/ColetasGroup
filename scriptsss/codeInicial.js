@@ -8,6 +8,8 @@ const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
+const menuLateral = document.querySelector('#menuLateral') 
+const menuLateralBotao = document.querySelector('#menuLateral-abrir')
 var statusProjeto = '';
 //#endregion
 
@@ -23,6 +25,8 @@ botaoStatusAmarelo.addEventListener('click', ()=>{
 botaoStatusVerde.addEventListener('click', ()=>{
     mudarContexto(botaoStatusVerde);
 })
+
+menuLateralBotao.addEventListener('click', () => { ativarMenuLateral() });
 
 
 function mudarContexto(contexto){
@@ -177,4 +181,12 @@ async function mostraProjetos() {
             window.location.href = './paginaProjetos.html';
         });
     });
+}
+
+function ativarMenuLateral() {
+    if (menuLateral.style.display == "none") {
+        menuLateral.style.display = "block";
+    } else {
+        menuLateral.style.display = "none";
+    }
 }

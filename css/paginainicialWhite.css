@@ -5,6 +5,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: "Inter", sans-serif;
+    color: rgb(32, 32, 39);
 }
 
 :root{
@@ -16,8 +17,7 @@
 
 
 body, html{
-    background: linear-gradient(to top, #000000, var(--corDeFundo-));
-
+    background: linear-gradient(to top,white, rgb(211, 225, 243));
     overflow-y: scroll;   /* desativa scroll horizontal e vertical */
     height: 100%;
 }
@@ -92,15 +92,20 @@ a{
     padding: 0 18% 0 17%;
 }
 
+#bundabunda{
+    background-color: rgb(169, 196, 238);
+    border-radius: 50px;
+    opacity: 0.5;
+}
+
 .pesquisa{
     width: 450px;
-    background-color: #d9d9d9;
-    color: var(--preto-);
+    background: none;
     border: none;
     border-radius: 32px;
     font-size: var(--fonte-);
     text-align: center;
-    opacity: 0.6;
+    opacity: 1;
     cursor:text;
     display: flex;
     justify-content: center;
@@ -109,16 +114,24 @@ a{
     & i{
         font-size: 2rem;   
         margin-right: 10px;
+        color: rgb(0, 0, 0);
     }
 }
 
 .pesquisaInput{
-    text-decoration: none;
+    background: none;
     border: 0;
     flex: 1;
     outline: none;
     padding: 20px;
 }
+
+    .pesquisaInput::placeholder{
+        color: black;
+        opacity: 1;
+        font-size: 1rem;
+        font-weight: 600;
+    }
 
 .buttonStatus{
     height: 50px;
@@ -158,12 +171,13 @@ a{
 .meio_bloco{
     width: 380px;
     height: 270px;
-    background:linear-gradient(to bottom, #d9d9d9 , #7c7878);
+    background:linear-gradient(to bottom, #efefff , #cfd1ee);
+    box-shadow: rgb(192, 206, 252) 0 0 20px;
     border-radius: 20px;
     margin: 10px;
     padding: 0 20px 10px 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     justify-content: space-around;
 }
 
@@ -197,7 +211,7 @@ p{
 #barraDentro {
     width: 70%;
     height: 30px;
-    background-color: rgb(63, 63, 63);
+    background-color: rgb(233, 238, 247);
     border-radius: 40px;
 }
 
@@ -246,9 +260,9 @@ p{
     padding: 20px;
     position: absolute;
     right: 0;
-    background-color: rgb(61, 61, 65);
+    background-color: rgb(243, 243, 253);
     border-radius: 10px;
-    box-shadow: 0 0 50px rgb(19, 18, 23);
+    box-shadow: 0 0 50px rgb(175, 170, 196);
     margin: 10px;
     & ul{
         display: flex;

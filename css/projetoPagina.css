@@ -5,6 +5,18 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    color: rgb(32, 32, 39);
+    border: none;
+}
+
+i{
+    color: white;
+}
+
+input[type="checkbox"] {
+  accent-color:  #00bf63; /* pode ser qualquer cor */
+  color: white
+  ;
 }
 
 :root {
@@ -16,22 +28,20 @@
 
 body,
 html {
-    background: linear-gradient(to bottom,var(--corDeFundo-) , #000000);
+    background: linear-gradient(to bottom,rgb(238, 238, 245), #d4def3);
     height: 100%;
     overflow: hidden;
 }
 
 h1 {
-    color: white;
     font-weight: 600;
     letter-spacing: 0.1rem;
-
 }
 
 .fa-house {
     padding: 25px 40px;
     font-size: 2rem;
-    color: white;
+    color: rgb(29, 31, 41);
     cursor: pointer;
 }
 .header__principal {
@@ -96,7 +106,7 @@ h1 {
 
 .div__main-projetos {
     width: 400px;
-    background:linear-gradient(to bottom, #d9d9d9,rgb(179, 163, 163));
+    background:linear-gradient(to bottom, #dee2f8,rgb(197, 203, 241));
     border-radius: 11px;
     display: flex;
     flex-direction: column;
@@ -106,6 +116,7 @@ h1 {
     overflow-x: hidden; /* esconde scroll horizontal */
     gap: 10px;
     flex-shrink: 0;
+    box-shadow: #c0c6e7 0 0 20px;
 }
 
 /* largura da barra */
@@ -115,14 +126,17 @@ h1 {
 
 /* trilho da barra */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #ffffff;
     border-radius: 10px;
 }
 
 /* parte que desliza */
 ::-webkit-scrollbar-thumb {
+    display: flex;
+    position: absolute;
     background: #888;
     border-radius: 25px;
+    bottom: 0;
 }
 
 /* hover na parte que desliza */
@@ -137,6 +151,7 @@ h1 {
     align-items: start;
     overflow-y: hidden;
     overflow-x: auto;
+    height: 72%;
 }
 
 .main__botao {
@@ -220,7 +235,6 @@ a {
     background-color: white;
     display: flex;
     justify-content: space-between;
-    
     padding: 5px;
     align-items: center;
     border-radius: 10px;
@@ -232,7 +246,7 @@ a {
 .mains__projetos-dentro-2 {
     display: flex;
     flex: 1;
-    background-color: #5f505096;
+    background-color: #ffffff96;
     padding: 10px;
     flex-direction: column;
     gap: 10px;
