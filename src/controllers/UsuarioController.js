@@ -8,6 +8,20 @@ class UsuarioController extends Controller {
         super(usuarioServices);
     }
 
+    async pegaUsuario(req, res) {
+        const { id } = req.params;
+
+        try {
+            const usuarioPesquisa = await usuarioServices.pegaUsuarioPorId(Number(id));
+
+            return res.status(200).json(usuarioPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
+
     async pegaNome(req, res) {
         const { nome } = req.params;
 

@@ -482,4 +482,72 @@ async function mostraProjeto() {
     valorCheckbox.forEach(checkbox => {
         checkbox.addEventListener('click', () => { marcaCheckbox(checkbox) })
     });
+
+    // MOSTRAR PARTICIPANTES //
+    const participantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
+    const participantesConvertido = await participantes.json();
+    const listaParticipantes = document.querySelector('#id_listaParticipantes');
+
+    participantesConvertido.forEach(async participante => {
+        const participanteEmail = await fetch(`http://localhost:3000/usuarios/${participante.codUsuario}`);
+        const participanteEmailConvertido = await participanteEmail.json();
+
+        listaParticipantes.innerHTML += `
+            <li>${participanteEmailConvertido.email}</li>
+        `
+    })
 }
+
+// BOTÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
+const botaoAdicionaPessoa = document.querySelector('.add__pessoas__botao');
+const menuPessoasAdicionadas = document.querySelector('#pessoasContainer');
+const campoPessoa = document.querySelector('.input_nome');
+
+//#region FUNÇÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
+async function enviarParaServidor(nome) {
+    const participante = await fetch(`http://localhost:3000/usuarios/email/${nome}`);
+    const participanteConvertido = await participante.json();
+
+    if (participanteConvertido) {
+        const response = await fetch('http://localhost:3000/participantes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                codUsuario: participanteConvertido.id,
+                codProjeto: projetoAberto
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao adicionar participante.');
+        }
+    }
+
+    else {
+        alert('Usuário não existe.');
+        return;
+    }
+}
+
+// Função async para adicionar pessoa ao projeto
+
+async function adicionaPessoas_Projeto() {
+    const nome = campoPessoa.value;
+
+    if (!nome) {
+        alert("Email inválido.");
+        return;
+    }
+
+    try {
+        const resposta = await enviarParaServidor(nome);
+        console.log(resposta);
+    } catch (erro) {
+        alert(`${erro}, ERRO`);
+    }
+}
+
+botaoAdicionaPessoa.addEventListener('click', () => { adicionaPessoas_Projeto() });
+//#endregion
