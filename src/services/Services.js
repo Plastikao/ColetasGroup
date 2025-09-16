@@ -48,6 +48,12 @@ class Services {
         })
     }
 
+    async pegaUmRegistroPorId(id) {
+        return dataSource[this.model].findOne({
+            where: { id: id },
+        })
+    }
+
     async pegaUmRegistroPorNome(nome) {
         return dataSource[this.model].findOne({
             where: { nome: nome },
@@ -63,6 +69,12 @@ class Services {
     async pegaUmRegistroPorSenha(senha) {
         return dataSource[this.model].findOne({
             where: { senha: senha },
+        })
+    }
+
+    async PegaTodosOsParticipantes(idProjeto) {
+        return dataSource[this.model].findAll({
+            where: { codProjeto: idProjeto },
         })
     }
     //#endregion
