@@ -43,7 +43,6 @@ padding: 100px 0;
 a{
     color:  #ff8a00;
     text-decoration: none;
-    
 }
 
 .section_class h1{
@@ -65,19 +64,19 @@ a{
  }
 }
 
-.section_class button{
-
+#id_botao_login{
+    opacity: 1;
     background: linear-gradient(to right, #f45507, #ffb001);
     color: var(--TextoHeader-);
     font-size: var(--fonte-);
     border: none;
     border-radius: 10px;
-    padding: 20px 80px;
+    padding: 20px;
 
 }
 .section_class h1{
-        color: #ff8a00;
-        text-shadow: orange 0 0 45px;
+    color: #ff8a00;
+    text-shadow: orange 0 0 45px;
 }
 span{
     color: #ff8a00;

@@ -41,6 +41,41 @@ function mudarContexto(contexto){
     mostraProjetos();
 }
 
+async function alteraStatus(botao, idProjeto) {
+    let statusAtual = '';
+    let status = botao.value;
+
+    switch (status) {
+        case 'nao_iniciado':
+            statusAtual = 'Não iniciado'
+            break;
+
+        case 'em_andamento':
+            statusAtual = 'Em andamento'
+            break;
+
+        case 'finalizado':
+            statusAtual = 'Finalizado'
+            break;
+
+        default:
+            statusAtual = 'Não iniciado'
+            break;
+    }
+
+    await fetch(`http://localhost:3000/projetos/${idProjeto}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            status: statusAtual
+        })
+    });
+
+    mostraProjetos();
+}
+
 botaoCriarProjeto.addEventListener('click', () => { criarProjeto() })
 
 botaoSair.addEventListener('click', () => { window.localStorage.setItem('usuarioStorage', null) });
@@ -64,8 +99,6 @@ async function criarProjeto() {
             })
         });
     }
-    
-    mostraProjetos();
 }
 
 async function mostraProjetos() {
@@ -80,7 +113,7 @@ async function mostraProjetos() {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        <p>${projeto.tituloProjeto}</p> <i class="fa-solid fa-ellipsis"></i>
+                        <p>${projeto.tituloProjeto}</p><i class="fa-solid fa-ellipsis"></i>
                     </section>
 
                     <section class="bloco_config branco" id="${projeto.id}">
@@ -90,39 +123,52 @@ async function mostraProjetos() {
                         <div class="barra" id="barraDentro">
                             <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
                         </div>
-
-                        <div id="mudaCor${i}"></div>
+                        
+                        <select name="selectStatus" class="cl_mudaStatus" id="mudaCor${i}">
+                            <option class="mudaCorVermelho" value="nao_iniciado"></option>
+                            <option class="mudaCorAmarelo" value="em_andamento"></option>
+                            <option class="mudaCorVerde" value="finalizado"></option>
+                        </select>
                     </section>
                 </div>
             `;
 
-            let cor = '';
+            let statusAtual = '';
 
             switch (projeto.status) {
                 case 'Não iniciado':
-                    cor = 'mudaCorVermelho';
+                    statusAtual = 'mudaCorVermelho';
                     break;
 
                 case 'Em andamento':
-                    cor = 'mudaCorAmarelo';
+                    statusAtual = 'mudaCorAmarelo';
                     break;
 
                 case 'Finalizado':
-                    cor = 'mudaCorVerde';
+                    statusAtual = 'mudaCorVerde';
                     break;
             }
 
-            const mudaCor = document.querySelector(`#mudaCor${i}`);
+            const mudaStatus = document.querySelectorAll(`.${statusAtual}`);
+            const selectStatus = document.querySelector(`#mudaCor${i}`);
 
-            //alert(clicaProjeto.id);
-            
-            mudaCor.classList.add(cor);
+            selectStatus.classList.add(statusAtual);
+            selectStatus.classList.add(projeto.id)
+
+            mudaStatus.forEach(status => {
+                status.setAttribute('selected', true);
+            });
         }
 
         i++
     });
     
     const blocosProjetos = document.querySelectorAll('.branco');
+    const botaoMudaStatus = document.querySelectorAll('.cl_mudaStatus');
+
+    botaoMudaStatus.forEach(botao => {
+        botao.addEventListener('change', () => { alteraStatus(botao, botao.classList[2]) });
+    });
 
     blocosProjetos.forEach(bloco => {
         bloco.addEventListener('click', () => {

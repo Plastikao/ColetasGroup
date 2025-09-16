@@ -158,7 +158,8 @@ async function criarBloco() {
 async function criarClasse(idBloco) {
     Swal.fire({
         title: "Nova classe",
-        imageHeight: 1000,
+        imageHeigth: 1000,
+
         html:`
             <input type="text" id="id_NomeClasse" placeholder="Nome da classe" value="Nova classe">
             <select id="id_TipoClasse">
@@ -257,7 +258,6 @@ async function procuraClasse(blocoDaClasse) {
                     />
                     <button id="botao__excluir_projetos-dentro"><i class="fa-solid fa-trash"></i></button>
                     <button class="botao__main_projetos-dentro ${classe.id} ${classe.tipoClasse}"><i class="fa-solid fa-plus"></i></button>
-                    
                 </div>
                 ${mostraConteudo}
             </div>
