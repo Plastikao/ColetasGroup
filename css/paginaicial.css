@@ -18,7 +18,7 @@
 body, html{
     background: linear-gradient(to top, #000000, var(--corDeFundo-));
 
-    overflow: hidden;   /* desativa scroll horizontal e vertical */
+    overflow-y: scroll;   /* desativa scroll horizontal e vertical */
     height: 100%;
 }
 
@@ -158,7 +158,7 @@ a{
 .meio_bloco{
     width: 380px;
     height: 270px;
-    background-color:#d9d9d9;
+    background:linear-gradient(to bottom, #d9d9d9 , #7c7878);
     border-radius: 20px;
     margin: 10px;
     padding: 0 20px 10px 20px;
