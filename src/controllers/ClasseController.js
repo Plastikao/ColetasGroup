@@ -21,6 +21,20 @@ class ClasseController extends Controller {
             console.log(`Seu erro foi: ${erro}`);
         }
     }
+
+    async pegaUmaClasse(req, res) {
+        const { codClasse } = req.params;
+
+        try {
+            const classePesquisa = await classeServices.pegaClassePorConteudo(Number(codClasse));
+
+            return res.status(200).json(classePesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
 }
 
 module.exports = ClasseController;

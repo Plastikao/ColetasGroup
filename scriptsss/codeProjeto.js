@@ -22,6 +22,116 @@ nomeProjetoAlterar.addEventListener('blur', () => { editaNomeProjeto() });
 botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
+//#region CONTEUDO
+async function alterarConteudo(conteudoAlterado, idConteudo) {
+    let conteudoParaAlterar = conteudoAlterado.value;
+
+    if (conteudoAlterado.type == 'file') {
+        let nomeImagem = `${Date.now()}-${conteudoAlterado.files[0].name}`
+
+        conteudoParaAlterar = nomeImagem;
+
+        const formData = new FormData();
+        formData.append('imagem', conteudoAlterado.files[0])
+        formData.append('nomeImagem', nomeImagem);
+
+        criaImagem(formData);
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${idConteudo}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            conteudo: conteudoParaAlterar
+        })
+    });
+
+    async function criaImagem(formData) {
+        await fetch(`http://localhost:3000/conteudos/upload`, {
+            method: 'POST',
+            body: formData
+        });
+    }
+
+    mostraProjeto();
+}
+
+async function abrirConteudo(conteudo) {
+    const conteudoAberto = await fetch(`http://localhost:3000/conteudos/apresenta/${conteudo.classList[1]}`);
+    const conteudoConvertido = await conteudoAberto.json();
+
+    const classe = await fetch(`http://localhost:3000/classes/apresenta/${conteudoConvertido.codClasse}`);
+    const classeConvertido = await classe.json();
+
+    let tipoConteudo = '';
+
+    if (classeConvertido.tipoClasse == 'link') {
+        tipoConteudo = `
+            <input type="text" name="conteudoConteudo" class="cl_conteudoConteudo" id="id_conteudoConteudoLink" value="${conteudoConvertido.conteudo}">
+        `
+    }
+
+    else if (classeConvertido.tipoClasse == 'imagem') {
+        tipoConteudo = `
+            <img src="../src/images/imagens_conteudo/${conteudoConvertido.conteudo}" width="300px">
+            <input type="file" name="testeArquivo" class="cl_conteudoConteudo" id="id_conteudoConteudoImagem"
+            accept=".jpg, .jpeg, .png, .gif">
+        `
+    }
+
+    else if (classeConvertido.tipoClasse == 'texto') {
+        tipoConteudo = `
+            <input type="text" name="conteudoConteudo" class="cl_conteudoConteudo" id="id_conteudoConteudoTexto" value="${conteudoConvertido.conteudo}">
+        `
+    }
+
+    Swal.fire({
+        html:`
+            <input type="text" name="nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
+
+            <div class="conteudoAberto" id="id_div_descricaoConteudo">
+                <h3>Descrição</h3>
+                <input type="text"
+                name="descricaoConteudo"
+                id="id_descricaoConteudo"
+                placeholder="Faça sua descrição..."
+                value="${conteudoConvertido.descricaoConteudo}">
+            </div>
+
+            <div class="conteudoAberto" id="id_div_conteudoConteudo">
+                <h3>Conteúdo</h3>
+                ${tipoConteudo}
+            </div>
+
+            <div class="conteudoAberto" id="id_div_conteudoComentarios">
+                <h3>Comentários</h3>
+                <input type="text" name="conteudoComentar" id="id_conteudoComentar" placeholder="Faça seu comentário...">
+
+                <div class="comentarios" id="id_div_comentarios">
+                    <ul id="id_listaComentarios">
+                        <li>
+                            <img src="#" alt="foto">
+                            <h4 class="nomeUsuarioComentario">Nome do usuário</h4>
+                            <span class="comentario">Comentário</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `,
+
+        showConfirmButton: false
+    });
+
+    const inputConteudo = document.querySelectorAll('.cl_conteudoConteudo');
+
+    inputConteudo.forEach(conteudo => {
+        conteudo.addEventListener('change', () => { alterarConteudo(conteudo, conteudoConvertido.id) });
+    });
+}
+//#endregion
+
 //#region CRIAR_ELEMENTOS
 async function criarBloco() {
     let i = 0;
@@ -117,7 +227,8 @@ async function criarConteudo(idClasse, tipoClasse) {
             conteudo: '',
             codClasse: idClasse,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            descricaoConteudo: ''
         })
     });
 
@@ -169,16 +280,16 @@ async function procuraConteudo(classeDoConteudo) {
     for(const conteudo of conteudoConvertido) {
         if (classeDoConteudo.tipoClasse == 'checkbox') {
             mostraConteudo += `
-                <div class="projeto__checkbox">
-                    <input type="checkbox" class="conteudo_checkbox"/>
-                    <label for="projeto__checkbox">${conteudo.nomeConteudo}</label>
+                <div class="projeto__checkbox ${conteudo.id}">
+                    <input type="checkbox" class="conteudo_checkbox" id="${conteudo.id}" ${conteudo.conteudo}/>
+                    <input type="text" class="nomeConteudo_checkbox" id="${conteudo.id}" placeholder="Nome do bloco" value="${conteudo.nomeConteudo}"/>
                 </div>
             `
         }
         
         else if (classeDoConteudo.tipoClasse == 'link') {
             mostraConteudo += `
-                <div class="projeto__checkbox">
+                <div class="projeto__link ${conteudo.id} conteudoAbrivel">
                     <label for="projeto__checkbox">
                     <a href="${conteudo.conteudo}">${conteudo.nomeConteudo}</a></label>
                 </div>
@@ -187,16 +298,16 @@ async function procuraConteudo(classeDoConteudo) {
 
         else if (classeDoConteudo.tipoClasse == 'imagem') {
             mostraConteudo += `
-                <div class="projeto__checkbox">
+                <div class="projeto__imagem ${conteudo.id} conteudoAbrivel">
                     <label for="projeto__checkbox">
-                    <img src="${conteudo.conteudo}"/>${conteudo.nomeConteudo}</label>
+                    ${conteudo.nomeConteudo}</label>
                 </div>
             `
         }
 
         else if (classeDoConteudo.tipoClasse == 'texto') {
             mostraConteudo += `
-                <div class="projeto__checkbox">
+                <div class="projeto__texto ${conteudo.id} conteudoAbrivel">
                     <label for="projeto__checkbox">
                     <span>${conteudo.nomeConteudo}</span></label>
                 </div>
@@ -264,6 +375,42 @@ async function editarNomeClasse(classe) {
 
     mostraProjeto();
 }
+
+async function editarCheckbox(checkbox) {
+    await fetch(`http://localhost:3000/conteudos/${checkbox.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeConteudo: checkbox.value
+        })
+    });
+
+    mostraProjeto();
+}
+
+async function marcaCheckbox(checkbox) {
+    let valorCheckbox = '';
+
+    if (checkbox.checked) {
+        valorCheckbox = 'checked';
+    }
+
+    else {
+        valorCheckbox = '';
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${checkbox.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            conteudo: valorCheckbox
+        })
+    });
+}
 //#endregion
 
 mostraProjeto();
@@ -304,18 +451,35 @@ async function mostraProjeto() {
         const idClasse = botao.classList[1];
         const tipoClasse = botao.classList[2];
 
-        botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) })
+        botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) });
     })
     
     // INPUT PARA RENOMEAR BLOCO E CLASSE //
     const nomeBloco = document.querySelectorAll('.input__texto');
     const nomeClasse = document.querySelectorAll('.input__texto-dentro');
+    const nomeCheckbox = document.querySelectorAll('.nomeConteudo_checkbox');
 
     nomeBloco.forEach(bloco => {
-        bloco.addEventListener('change', () => { editarNomeBloco(bloco) })
+        bloco.addEventListener('change', () => { editarNomeBloco(bloco) });
     });
 
     nomeClasse.forEach(classe => {
-        classe.addEventListener('change', () => { editarNomeClasse(classe) })
+        classe.addEventListener('change', () => { editarNomeClasse(classe) });
+    });
+
+    nomeCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', () => { editarCheckbox(checkbox) })
+    });
+
+    // BOTÕES PARA ABRIR CONTEÚDO //
+    const botaoConteudo = document.querySelectorAll('.conteudoAbrivel');
+    const valorCheckbox = document.querySelectorAll('.conteudo_checkbox');
+
+    botaoConteudo.forEach(botao => {
+        botao.addEventListener('click', () => { abrirConteudo(botao) });
+    });
+
+    valorCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('click', () => { marcaCheckbox(checkbox) })
     });
 }

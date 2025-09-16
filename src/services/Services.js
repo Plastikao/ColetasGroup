@@ -42,9 +42,21 @@ class Services {
         })
     }
 
+    async pegaClassePorConteudoAberto(codClasse) {
+        return dataSource[this.model].findOne({
+            where: { id: codClasse },
+        })
+    }
+
     async pegaTodosOsConteudos(idClasse) {
         return dataSource[this.model].findAll({
             where: { codClasse: idClasse },
+        })
+    }
+
+    async pegaUmConteudoAberto(idConteudo) {
+        return dataSource[this.model].findOne({
+            where: { id: idConteudo },
         })
     }
 
@@ -69,7 +81,7 @@ class Services {
 
     //#region UPDATE
     async atualizaRegistro(dadosAtualizados, id) {
-        const listadeRegistrosAtualizados = dataSource[this.model].update(
+        const listadeRegistrosAtualizados = await dataSource[this.model].update(
             dadosAtualizados,
             {
                 where: { id: id },

@@ -48,7 +48,9 @@ async function logarUsuario(nomeOuEmail, senha) {
 
         if (nomeEmailConvertido == null || senhaConvertida == null) {
             alert('Usuário não existe.')
-        } else {
+        }
+        
+        else {
             window.localStorage.setItem('usuarioStorage', [
                 nomeEmailConvertido.id,
                 nomeEmailConvertido.nome,
