@@ -8,6 +8,8 @@ const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
+const menuLateral = document.querySelector('#menuLateral');
+const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 var statusProjeto = '';
 //#endregion
 
@@ -24,6 +26,7 @@ botaoStatusVerde.addEventListener('click', ()=>{
     mudarContexto(botaoStatusVerde);
 })
 
+menuLateralBotao.addEventListener('click', () => { ativarMenuLateral() });
 
 function mudarContexto(contexto){
     if (!contexto.classList.contains('active')) {
@@ -39,6 +42,16 @@ function mudarContexto(contexto){
     }
 
     mostraProjetos();
+}
+
+function ativarMenuLateral() {
+    if (menuLateral.style.display == "none") {
+        menuLateral.style.display = "block";
+    }
+
+    else {
+        menuLateral.style.display = "none";
+    }
 }
 
 async function alteraStatus(botao, idProjeto) {
@@ -78,7 +91,10 @@ async function alteraStatus(botao, idProjeto) {
 
 botaoCriarProjeto.addEventListener('click', () => { criarProjeto() })
 
-botaoSair.addEventListener('click', () => { window.localStorage.setItem('usuarioStorage', null) });
+botaoSair.addEventListener('click', () => {
+    window.localStorage.setItem('usuarioStorage', null);
+    window.location.href = '../index.html';
+});
 //#endregion
 
 mostraProjetos();

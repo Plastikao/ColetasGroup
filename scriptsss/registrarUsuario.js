@@ -1,9 +1,5 @@
 //#region DOCUMENTS
 const botaoRegistro = document.querySelector('#id_botao_registro');
-var emailRegistro = [document.querySelector('#email_section').value, false];
-var usuarioRegistro = document.querySelector('#usuario_section').value;
-var senhaRegistro = [document.querySelector('#senha_section').value, false];
-var confirmaSenhaRegistro = [document.querySelector('#confirmarSenha_section').value, false];
 //#endregion
 
 //#region EVENTS
@@ -11,6 +7,11 @@ botaoRegistro.addEventListener('click', () => {registrarUsuario()})
 //#endregion
 
 async function registrarUsuario() {
+    let emailRegistro = [document.querySelector('#email_section').value, false];
+    let usuarioRegistro = document.querySelector('#usuario_section').value;
+    let senhaRegistro = [document.querySelector('#senha_section').value, false];
+    let confirmaSenhaRegistro = [document.querySelector('#confirmarSenha_section').value, false];
+
     if (emailRegistro[0].length > 0 &&
         usuarioRegistro.length > 0 &&
         senhaRegistro[0].length > 0 &&

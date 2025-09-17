@@ -5,6 +5,12 @@ class ClasseServices extends Services {
         super('Classes');
     }
 
+    async pegaClassePorId(id) {
+        const classePesquisa = await super.pegaUmRegistroPorId(id);
+
+        return classePesquisa;
+    }
+
     async pegaClassePorBloco(idBloco) {
         const classePesquisa = await super.pegaTodasAsClasses(idBloco);
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas</title>
-    <link rel="stylesheet" href="../css/paginaicial.css">
+    <link rel="stylesheet" href="../css/paginainicialWhite.css">
     <script async src="https://cse.google.com/cse.js?cx=134692102cf0a43d7" defer></script>
     <script defer type="module" src="../scriptsss/codeInicial.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -13,21 +13,25 @@
         <ul class="header__ul">
             <li class="header__li" id="headerLogo"> <img src="../fotos/icon.png" id="iconeHeader" alt=""><H3 class="header__h3 stylepoint">AtlasFlow</H3></li>
             <li class="header__li"><H3 class="header__h3 stylepoint">Calendário</H3></li>
-            <li>
+            <div id="bundabunda"><li>
                 <div class="pesquisa">
                     <input type="search" placeholder="Pesquisar Projetos" class="meio__item pesquisaInput">
                     <i class="fa-solid fa-magnifying-glass "></i>
                 </div>
-            </li>
-            <li class="header__li">
-                <a href="./paginaMudarsenha.html"> <button class="button_li allButtons stylepoint">Entrar</button></a> 
-            </li>
-            <li class="header__li">
-                <a href="../index.html"><button class="button_li allButtons stylepoint" id="id_botao_sair">Sair</button></a> 
-            </li>
-            <li class="header__li" ><i class="fa-solid fa-bars stylepoint"></i></li>
+            </li></div>
+            <li class="header__li" id="menuLateral-abrir"><i class="fa-solid fa-bars stylepoint"></i></li>
         </ul>
     </header>
+
+    <section id="menuLateral">
+        <ul>
+            <a href="./paginaMudarsenha.html"><li><i class="fa-solid fa-user"></i> Perfil</li></a>
+            <li><i class="fa-solid fa-gear"></i> Configurações</li>
+            <li><i class="fa-solid fa-trash"></i> Lixeira</li>
+            <li><i class="fa-solid fa-circle-question"></i> Ajuda</li>
+            <li id="id_botao_sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</li>
+        </ul>
+    </section>
 
     <hr>
 

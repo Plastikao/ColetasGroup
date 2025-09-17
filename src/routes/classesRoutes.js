@@ -6,8 +6,10 @@ const classeController = new ClasseController();
 const router = Router();
 
 router.get('/classes/busca/:idBloco', (req, res) => classeController.pegaClasses(req, res));
-router.get('/classes/apresenta/:codClasse', (req, res) => classeController.pegaUmaClasse(req, res));
+router.get('/classes/:id', (req, res) => classeController.pegaUmaClasse(req, res));
+router.get('/classes/apresenta/:codClasse', (req, res) => classeController.pegaClasseConteudo(req, res));
 router.post('/classes', (req, res) => classeController.criaNovo(req, res));
 router.put('/classes/:id', (req, res) => classeController.atualiza(req, res));
+router.delete('/classes/:id', (req, res) => classeController.exclui(req, res));
 
 module.exports = router;

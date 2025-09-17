@@ -7,13 +7,13 @@ class Services {
         this.model = nomeDoModel
     }
 
-    //#region CREATE
+//#region CREATE
     async criaRegistro(dadosDoRegistro) {
         return dataSource[this.model].create(dadosDoRegistro)
     }
-    //#endregion
+//#endregion
 
-    //#region READ
+//#region READ
     async pegaTodosOsRegistros() {
         return dataSource[this.model].findAll()
     }
@@ -89,9 +89,9 @@ class Services {
             where: { codProjeto: idProjeto }
         })
     }
-    //#endregion
+//#endregion
 
-    //#region UPDATE
+//#region UPDATE
     async atualizaRegistro(dadosAtualizados, id) {
         const listadeRegistrosAtualizados = await dataSource[this.model].update(
             dadosAtualizados,
@@ -106,38 +106,13 @@ class Services {
 
         return true
     }
-    //#endregion
+//#endregion
 
-    /*
-  async pegaTodosOsRegistros () {
-    return dataSource[this.model].findAll();
-  }
-
-  async pegaUmRegistroPorId(id) {
-    return dataSource[this.model].findByPk(id);
-  }
-
-  async pegaUmRegistroPorNome(nome) {
-    return dataSource[this.model].findAll({where: {nome: {[Op.like]: `%${nome}%`}}});
-  }
-
-  async criaRegistro(dadosDoRegistro) {
-    return dataSource[this.model].create(dadosDoRegistro);
-  }
-
-  async atualizaRegistro(dadosAtualizados, id) {
-    const listadeRegistrosAtualizados = dataSource[this.model].update(dadosAtualizados, {
-      where: { id: id }
-    });
-    if (listadeRegistrosAtualizados[0] === 0) {
-      return false;
+//#region DELETE
+    async excluiRegistro(id) {
+        return dataSource[this.model].destroy({ where: { id: id } });
     }
-    return true;
-  }
-
-  async excluiRegistro(id) {
-    return dataSource[this.model].destroy({ where: { id: id } });
-  }*/
+//#endregion
 }
 
 module.exports = Services

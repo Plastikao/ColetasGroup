@@ -41,9 +41,32 @@ router.post('/conteudos/upload', upload.single('imagem'), (req, res) => {
 });
 //#endregion
 
+//#region DELETAR_IMAGEM
+router.delete('/conteudos/imagem/:nomeImagem', (req, res) => {
+    const nomeImagem = req.params.nomeImagem;
+    const caminhoImagem = path.join(pastaDeUpload, nomeImagem);
+
+    fs.access(caminhoImagem, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).json({ erro: 'Imagem não encontrada.' });
+        }
+
+        fs.unlink(caminhoImagem, (erro) => {
+            if (erro) {
+                console.error(`Erro ao deletar imagem: ${erro}`);
+                return res.status(500).json({ erro: 'Erro ao deletar a imagem.' });
+            }
+
+            res.status(200).json({ mensagem: 'Imagem deletada com sucesso.' });
+        });
+    });
+});
+//#endregion
+
 router.get('/conteudos/busca/:idClasse', (req, res) => conteudoController.pegaConteudos(req, res));
 router.get('/conteudos/apresenta/:idConteudo', (req, res) => conteudoController.pegaUmConteudo(req, res));
 router.post('/conteudos', (req, res) => conteudoController.criaNovo(req, res));
 router.put('/conteudos/:id', (req, res) => conteudoController.atualiza(req, res));
+router.delete('/conteudos/:id', (req, res) => conteudoController.exclui(req, res));
 
 module.exports = router;

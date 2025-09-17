@@ -23,6 +23,24 @@ botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
 //#region CONTEUDO
+async function editarNomeConteudo(nome, idConteudo) {
+    if (nome.value.length < 1) {
+        return;
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${idConteudo}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeConteudo: nome.value
+        })
+    });
+
+    mostraProjeto();
+}
+
 async function alterarConteudo(conteudoAlterado, idConteudo) {
     let conteudoParaAlterar = conteudoAlterado.value;
 
@@ -58,6 +76,16 @@ async function alterarConteudo(conteudoAlterado, idConteudo) {
     mostraProjeto();
 }
 
+async function excluirConteudo(conteudo, tipoConteudo) {
+    if (tipoConteudo == 'imagem') {
+        await fetch(`http://localhost:3000/conteudos/imagem/${conteudo.conteudo}`, {method: 'DELETE'});
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${conteudo.id}`, {method: 'DELETE'});
+
+    mostraProjeto();
+}
+
 async function abrirConteudo(conteudo) {
     const conteudoAberto = await fetch(`http://localhost:3000/conteudos/apresenta/${conteudo.classList[1]}`);
     const conteudoConvertido = await conteudoAberto.json();
@@ -89,7 +117,8 @@ async function abrirConteudo(conteudo) {
 
     Swal.fire({
         html:`
-            <input type="text" name="nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
+            <input type="text" name="nomeConteudo" class="cl_nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
+            <button id="botao__excluir_conteudo"><i class="fa-solid fa-trash"></i></button>
 
             <div class="conteudoAberto" id="id_div_descricaoConteudo">
                 <h3>Descrição</h3>
@@ -124,11 +153,19 @@ async function abrirConteudo(conteudo) {
         showConfirmButton: false
     });
 
+    const nomeConteudo = document.querySelectorAll('.cl_nomeConteudo');
     const inputConteudo = document.querySelectorAll('.cl_conteudoConteudo');
+    const botaoExcluirConteudo = document.querySelector('#botao__excluir_conteudo');
+
+    nomeConteudo.forEach(nome => {
+        nome.addEventListener('change', () => { editarNomeConteudo(nome, conteudoConvertido.id) })
+    });
 
     inputConteudo.forEach(conteudo => {
         conteudo.addEventListener('change', () => { alterarConteudo(conteudo, conteudoConvertido.id) });
     });
+
+    botaoExcluirConteudo.addEventListener('click', () => { excluirConteudo(conteudoConvertido, classeConvertido.tipoClasse) });
 }
 //#endregion
 
@@ -256,7 +293,7 @@ async function procuraClasse(blocoDaClasse) {
                         id="${classe.id}"
                         value="${classe.nomeClasse}"
                     />
-                    <button id="botao__excluir_projetos-dentro"><i class="fa-solid fa-trash"></i></button>
+                    <button class="cl_botaoExcluirClasse ${classe.id}" id="botao__excluir_projetos-dentro"><i class="fa-solid fa-trash"></i></button>
                     <button class="botao__main_projetos-dentro ${classe.id} ${classe.tipoClasse}"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 ${mostraConteudo}
@@ -376,6 +413,20 @@ async function editarNomeClasse(classe) {
     mostraProjeto();
 }
 
+async function excluirClasse(idClasse) {
+    const classe = await fetch(`http://localhost:3000/classes/${idClasse}`);
+    const classeConvertido = await classe.json();
+
+    const conteudos = await fetch(`http://localhost:3000/conteudos/busca/${classeConvertido.id}`);
+    const conteudoConvertido = await conteudos.json();
+
+    conteudoConvertido.forEach(conteudo => {
+        excluirConteudo(conteudo, classeConvertido.tipoClasse);
+    });
+
+    await fetch(`http://localhost:3000/classes/${idClasse}`, {method: 'DELETE'});
+}
+
 async function editarCheckbox(checkbox) {
     await fetch(`http://localhost:3000/conteudos/${checkbox.id}`, {
         method: 'PUT',
@@ -437,7 +488,14 @@ async function mostraProjeto() {
         i++;
     };
 
-    // BOTÕES PARA ADICIONAR CLASSE E CONTEÚDO //
+    // BOTÕES DE APAGAR CLASSE E BLOCO //
+    const botaoExcluirClasse = document.querySelectorAll('.cl_botaoExcluirClasse');
+
+    botaoExcluirClasse.forEach(botao => {
+        botao.addEventListener('click', () => { excluirClasse(botao.classList[1]) })
+    });
+
+    //#region BOTÕES PARA ADICIONAR CLASSE E CONTEÚDO
     const botaoCriarClasse = document.querySelectorAll('.botao__main_projetos');
     const botaoCriarConteudo = document.querySelectorAll('.botao__main_projetos-dentro');
 
@@ -453,8 +511,9 @@ async function mostraProjeto() {
 
         botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) });
     })
-    
-    // INPUT PARA RENOMEAR BLOCO E CLASSE //
+    //#endregion
+
+    //#region INPUT PARA RENOMEAR BLOCO E CLASSE
     const nomeBloco = document.querySelectorAll('.input__texto');
     const nomeClasse = document.querySelectorAll('.input__texto-dentro');
     const nomeCheckbox = document.querySelectorAll('.nomeConteudo_checkbox');
@@ -470,8 +529,9 @@ async function mostraProjeto() {
     nomeCheckbox.forEach(checkbox => {
         checkbox.addEventListener('change', () => { editarCheckbox(checkbox) })
     });
+    //#endregion
 
-    // BOTÕES PARA ABRIR CONTEÚDO //
+    //#region BOTÕES PARA ABRIR CONTEÚDO
     const botaoConteudo = document.querySelectorAll('.conteudoAbrivel');
     const valorCheckbox = document.querySelectorAll('.conteudo_checkbox');
 
@@ -482,8 +542,9 @@ async function mostraProjeto() {
     valorCheckbox.forEach(checkbox => {
         checkbox.addEventListener('click', () => { marcaCheckbox(checkbox) })
     });
+    //#endregion
 
-    // MOSTRAR PARTICIPANTES //
+    //#region MOSTRAR PARTICIPANTES
     const participantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
     const participantesConvertido = await participantes.json();
     const listaParticipantes = document.querySelector('#id_listaParticipantes');
@@ -496,6 +557,7 @@ async function mostraProjeto() {
             <li>${participanteEmailConvertido.email}</li>
         `
     })
+    //#endregion
 }
 
 // BOTÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
