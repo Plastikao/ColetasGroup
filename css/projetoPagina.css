@@ -164,6 +164,10 @@ h1 {
     margin-left: 5rem;
     margin-bottom: 15px;
     font-weight: bolder;
+    transition: 0.5s ease-in-out;
+        &:hover{
+        box-shadow: orange 0 0 20px;
+    }
 }
 
 .input__texto {
@@ -185,6 +189,10 @@ h1 {
     font-size: 1rem;
     border-radius: 11px;
     min-height: 35px;
+    &:hover{
+        background-color: #06aa5b;
+        cursor: pointer;
+    }
 }
 .botao__main_projetos-dentro {
     background-color: #00bf63;
@@ -246,7 +254,7 @@ a {
 .mains__projetos-dentro-2 {
     display: flex;
     flex: 1;
-    background-color: #ffffff96;
+    background-color: #f2f3fd96;
     padding: 10px;
     flex-direction: column;
     gap: 10px;
@@ -264,4 +272,14 @@ a {
 
 .conteudo_checkbox {
     transform: scale(1.5);
+}
+
+.conteudoAbrivel{
+    padding: 10px 10px;
+    background-color: rgb(250, 250, 250);
+    border-radius: 5px;
+    &:hover{
+        cursor: pointer;
+        outline: solid 2px rgba(126, 151, 214, 0.37);
+    }
 }

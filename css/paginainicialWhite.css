@@ -20,7 +20,9 @@ body, html{
     background: linear-gradient(to top,white, rgb(211, 225, 243));
     overflow-y: scroll;   /* desativa scroll horizontal e vertical */
     height: 100%;
+    scrollbar-width: none;
 }
+
 
 /* inicio cabeçalho */
 
@@ -78,6 +80,11 @@ a{
     font-size: var(--fonte-);
     border: none;
     border-radius: 20px;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        transform: scale(1.1);
+        box-shadow: rgb(243, 117, 32) 0 0 10px;
+    }
 }
 
 .button__section{
@@ -143,15 +150,15 @@ a{
 }
 
 #ButtonStatusVermelho{
-    background-color: #eb3939;
+    background: linear-gradient(to right, #eb3939, #d82323);
 }
 
 #ButtonStatusAmarelo{
-    background-color:#ffa800;
+    background:linear-gradient(to right, #ffa800,#ffa938);
 }
 
 #ButtonStatusVerde{
-    background-color:#00bf63;
+    background:linear-gradient(to right, #00bf63, #02b337);
 }
 
 /* fim botão e pesquisa */
@@ -179,6 +186,12 @@ a{
     display: flex;
     flex-direction: column; 
     justify-content: space-around;
+    transition: 0.3s;
+    &:hover{
+        transform: scale(1.1) translateY(-15px);
+        box-shadow: rgb(170, 186, 241) 0 0 30px;
+        cursor: pointer;
+    }
 }
 
 p{
@@ -277,9 +290,13 @@ p{
         }
         & li:hover{
             cursor: pointer;
-            background-color: rgb(108, 108, 116);
+            background-color: rgb(172, 172, 190);
             & i{
                 color: white;
+            }
+            &{
+                color: white;
+                font-weight: 600;
             }
         }
         & .fa-solid{
