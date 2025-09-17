@@ -23,6 +23,24 @@ botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
 //#region CONTEUDO
+async function editarNomeConteudo(nome, idConteudo) {
+    if (nome.value.length < 1) {
+        return;
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${idConteudo}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            nomeConteudo: nome.value
+        })
+    });
+
+    mostraProjeto();
+}
+
 async function alterarConteudo(conteudoAlterado, idConteudo) {
     let conteudoParaAlterar = conteudoAlterado.value;
 
@@ -89,7 +107,7 @@ async function abrirConteudo(conteudo) {
 
     Swal.fire({
         html:`
-            <input type="text" name="nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
+            <input type="text" name="nomeConteudo" class="cl_nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
 
             <div class="conteudoAberto" id="id_div_descricaoConteudo">
                 <h3>Descrição</h3>
@@ -104,7 +122,8 @@ async function abrirConteudo(conteudo) {
                 <h3>Conteúdo</h3>
                 ${tipoConteudo}
             </div>
-
+        `
+        /*
             <div class="conteudoAberto" id="id_div_conteudoComentarios">
                 <h3>Comentários</h3>
                 <input type="text" name="conteudoComentar" id="id_conteudoComentar" placeholder="Faça seu comentário...">
@@ -119,12 +138,17 @@ async function abrirConteudo(conteudo) {
                     </ul>
                 </div>
             </div>
-        `,
+        `*/,
 
         showConfirmButton: false
     });
 
+    const nomeConteudo = document.querySelectorAll('.cl_nomeConteudo');
     const inputConteudo = document.querySelectorAll('.cl_conteudoConteudo');
+
+    nomeConteudo.forEach(nome => {
+        nome.addEventListener('change', () => { editarNomeConteudo(nome, conteudoConvertido.id) })
+    });
 
     inputConteudo.forEach(conteudo => {
         conteudo.addEventListener('change', () => { alterarConteudo(conteudo, conteudoConvertido.id) });
