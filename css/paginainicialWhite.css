@@ -305,4 +305,45 @@ p{
     }
 }
 
+.cl_menuProjetos{
+    display: none;
+    position: static;
+    width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+    padding: 20px;
+    position: absolute;
+    background-color: rgb(243, 243, 253);
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgb(175, 170, 196);
+    margin: 10px;
+    & ul{
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 20px;
+        width: 100%;
+        & li{
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 10px;
+        }
+        & li:hover{
+            cursor: pointer;
+            background-color: rgb(172, 172, 190);
+            & i{
+                color: white;
+            }
+            &{
+                color: white;
+                font-weight: 600;
+            }
+        }
+        & .fa-solid{
+            font-size: 1.5rem;
+        }
+    }
+}
+
 /* fim projetos */

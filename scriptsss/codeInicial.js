@@ -137,7 +137,15 @@ async function mostraProjetos() {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        <p>${projeto.tituloProjeto}</p><i class="fa-solid fa-ellipsis"></i>
+                        <p>${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+                    </section>
+
+                    <section class="cl_menuProjetos ${i}" style="display: none;">
+                        <ul>
+                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-user"></i> Compartilhar</li>
+                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-gear"></i> Renomear</li>
+                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-trash"></i> Apagar</li>
+                        </ul>
                     </section>
 
                     <section class="bloco_config branco" id="${projeto.id}">
@@ -173,11 +181,26 @@ async function mostraProjetos() {
                     break;
             }
 
+            const botaoMenuProjetos = document.querySelectorAll('.cl_botaoMenuProjetos')
             const mudaStatus = document.querySelectorAll(`.${statusAtual}`);
             const selectStatus = document.querySelector(`#mudaCor${i}`);
 
             selectStatus.classList.add(statusAtual);
             selectStatus.classList.add(projeto.id)
+
+            botaoMenuProjetos.forEach(botao => {
+                botao.addEventListener('click', () => {
+                    const menuProjeto = document.getElementsByClassName(`cl_menuProjetos ${botao.classList[1]}`);
+
+                    if (menuProjeto[0].style.getPropertyValue('display') == 'block') {
+                        menuProjeto[0].style = 'display: none;';
+                    }
+                    
+                    else {
+                        menuProjeto[0].style = 'display: block;';
+                    }
+                })
+            });
 
             mudaStatus.forEach(status => {
                 status.setAttribute('selected', true);
