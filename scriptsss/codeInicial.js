@@ -10,6 +10,8 @@ const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
 const menuLateral = document.querySelector('#menuLateral');
 const menuLateralBotao = document.querySelector('#menuLateral-abrir');
+const barraPesquisa = document.querySelector('.pesquisaInput');
+var pesquisaProjeto = '';
 var statusProjeto = '';
 //#endregion
 
@@ -27,6 +29,12 @@ botaoStatusVerde.addEventListener('click', ()=>{
 })
 
 menuLateralBotao.addEventListener('click', () => { ativarMenuLateral() });
+
+barraPesquisa.addEventListener('keyup', () => {
+    pesquisaProjeto = barraPesquisa.value;
+
+    mostraProjetos();
+})
 
 function mudarContexto(contexto){
     if (!contexto.classList.contains('active')) {
@@ -125,7 +133,7 @@ async function mostraProjetos() {
     let i = 0;
 
     projetosConvertido.forEach(projeto => {
-        if (projeto.status == statusProjeto || statusProjeto == '') {
+        if ((projeto.status == statusProjeto || statusProjeto == '') && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">

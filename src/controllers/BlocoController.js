@@ -21,6 +21,20 @@ class BlocoController extends Controller {
             console.log(`Seu erro foi: ${erro}`);
         }
     }
+
+    async pegaBloco(req, res) {
+        const { idBloco } = req.params;
+
+        try {
+            const blocoPesquisa = await blocoServices.pegaBlocoPorClique(Number(idBloco));
+
+            return res.status(200).json(blocoPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
 }
 
 module.exports = BlocoController;

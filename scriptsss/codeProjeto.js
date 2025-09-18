@@ -399,6 +399,20 @@ async function editarNomeBloco(bloco) {
     mostraProjeto();
 }
 
+async function excluirBloco(idBloco) {
+    const bloco = await fetch(`http://localhost:3000/blocos/excluir/${idBloco}`);
+    const blocoConvertido = await bloco.json();
+
+    const classes = await fetch(`http://localhost:3000/classes/busca/${blocoConvertido.id}`);
+    const classesConvertido = await classes.json();
+
+    for (const classe of classesConvertido) {
+        await excluirClasse(classe.id);
+    }
+    
+    await fetch(`http://localhost:3000/blocos/${idBloco}`, {method: 'DELETE'});
+}
+
 async function editarNomeClasse(classe) {
     await fetch(`http://localhost:3000/classes/${classe.id}`, {
         method: 'PUT',
@@ -420,10 +434,10 @@ async function excluirClasse(idClasse) {
     const conteudos = await fetch(`http://localhost:3000/conteudos/busca/${classeConvertido.id}`);
     const conteudoConvertido = await conteudos.json();
 
-    conteudoConvertido.forEach(conteudo => {
-        excluirConteudo(conteudo, classeConvertido.tipoClasse);
-    });
-
+    for (const conteudo of conteudoConvertido) {
+        await excluirConteudo(conteudo, classeConvertido.tipoClasse);
+    };
+    
     await fetch(`http://localhost:3000/classes/${idClasse}`, {method: 'DELETE'});
 }
 
@@ -481,6 +495,7 @@ async function mostraProjeto() {
             <div class="div__main-projetos bloco${i}">
                 <input type="text" class="input__texto" id="${bloco.id}" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
                 <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
+                <button class="cl_botaoExcluirBloco ${bloco.id}"><i class="fa-solid fa-trash"></i></button>
                 ${mostraClasse}
             </div>
         `;
@@ -489,7 +504,12 @@ async function mostraProjeto() {
     };
 
     // BOTÕES DE APAGAR CLASSE E BLOCO //
+    const botaoExcluirBloco = document.querySelectorAll('.cl_botaoExcluirBloco');
     const botaoExcluirClasse = document.querySelectorAll('.cl_botaoExcluirClasse');
+
+    botaoExcluirBloco.forEach(botao => {
+        botao.addEventListener('click', () => { excluirBloco(botao.classList[1]) })
+    });
 
     botaoExcluirClasse.forEach(botao => {
         botao.addEventListener('click', () => { excluirClasse(botao.classList[1]) })
