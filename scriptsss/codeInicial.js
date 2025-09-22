@@ -125,6 +125,121 @@ async function criarProjeto() {
     }
 }
 
+async function adicionaPessoas_Projeto(emailAdicionado, projetoId) {
+    const email = emailAdicionado.value;
+
+    if (!email) {
+        alert("Email inválido.");
+        return;
+    }
+
+    try {
+        const resposta = await enviarParaServidor(email, projetoId);
+        console.log(resposta);
+    } catch (erro) {
+        alert(`${erro}, ERRO`);
+    }
+}
+
+async function enviarParaServidor(email, projetoId) {
+    const participante = await fetch(`http://localhost:3000/usuarios/email/${email}`);
+    const participanteConvertido = await participante.json();
+
+    if (participanteConvertido) {
+        const response = await fetch('http://localhost:3000/participantes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                codUsuario: participanteConvertido.id,
+                codProjeto: projetoId
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao adicionar participante.');
+        }
+    }
+
+    else {
+        alert('Usuário não existe.');
+        return;
+    }
+}
+
+async function editarNomeProjeto(nomeAtualProjeto, novoNomeProjeto, projetoId) {
+    if (nomeAtualProjeto != novoNomeProjeto.value) {
+        await fetch(`http://localhost:3000/projetos/${projetoId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                tituloProjeto: novoNomeProjeto.value
+            })
+        });
+
+        mostraProjetos();
+    }
+}
+
+async function apagarProjeto(projetoId) {
+    const blocos = await fetch(`http://localhost:3000/blocos/busca/${projetoId}`);
+    const blocosConvertido = await blocos.json();
+
+    const participantes = await fetch(`http://localhost:3000/participantes/${projetoId}`);
+    const participantesConvertido = await participantes.json();
+
+    for (const bloco of blocosConvertido) {
+        await excluirBloco(bloco.id);
+    }
+
+    for (const participante of participantesConvertido) {
+        await fetch(`http://localhost:3000/participantes/${participante.id}`, {method: 'DELETE'});
+    }
+
+    await fetch(`http://localhost:3000/projetos/${projetoId}`, {method: 'DELETE'});
+
+    mostraProjetos();
+}
+
+async function excluirBloco(idBloco) {
+    const bloco = await fetch(`http://localhost:3000/blocos/excluir/${idBloco}`);
+    const blocoConvertido = await bloco.json();
+
+    const classes = await fetch(`http://localhost:3000/classes/busca/${blocoConvertido.id}`);
+    const classesConvertido = await classes.json();
+
+    for (const classe of classesConvertido) {
+        await excluirClasse(classe.id);
+    }
+    
+    await fetch(`http://localhost:3000/blocos/${idBloco}`, {method: 'DELETE'});
+}
+
+async function excluirClasse(idClasse) {
+    const classe = await fetch(`http://localhost:3000/classes/${idClasse}`);
+    const classeConvertido = await classe.json();
+
+    const conteudos = await fetch(`http://localhost:3000/conteudos/busca/${classeConvertido.id}`);
+    const conteudoConvertido = await conteudos.json();
+
+    for (const conteudo of conteudoConvertido) {
+        await excluirConteudo(conteudo, classeConvertido.tipoClasse);
+    };
+    
+    await fetch(`http://localhost:3000/classes/${idClasse}`, {method: 'DELETE'});
+}
+
+async function excluirConteudo(conteudo, tipoConteudo) {
+    if (tipoConteudo == 'imagem') {
+        await fetch(`http://localhost:3000/conteudos/imagem/${conteudo.conteudo}`, {method: 'DELETE'});
+    }
+
+    await fetch(`http://localhost:3000/conteudos/${conteudo.id}`, {method: 'DELETE'});
+}
+
 async function mostraProjetos() {
     const projetos = await fetch(`http://localhost:3000/projetos/${idProprietario}`);
     const projetosConvertido = await projetos.json();
@@ -137,14 +252,14 @@ async function mostraProjetos() {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        <p>${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+                        <p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
                     </section>
 
                     <section class="cl_menuProjetos ${i}" style="display: none;">
                         <ul>
-                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-user"></i> Compartilhar</li>
-                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-gear"></i> Renomear</li>
-                            <li class="cl_botaoCompartilhar"><i class="fa-solid fa-trash"></i> Apagar</li>
+                            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
+                            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
+                            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
                         </ul>
                     </section>
 
@@ -181,7 +296,10 @@ async function mostraProjetos() {
                     break;
             }
 
-            const botaoMenuProjetos = document.querySelectorAll('.cl_botaoMenuProjetos')
+            const botaoMenuProjetos = document.querySelectorAll('.cl_botaoMenuProjetos');
+            const botaoCompartilhar = document.querySelectorAll('.cl_botaoCompartilhar');
+            const botaoRenomear = document.querySelectorAll('.cl_botaoRenomear');
+            const botaoApagar = document.querySelectorAll('.cl_botaoApagar');
             const mudaStatus = document.querySelectorAll(`.${statusAtual}`);
             const selectStatus = document.querySelector(`#mudaCor${i}`);
 
@@ -199,7 +317,68 @@ async function mostraProjetos() {
                     else {
                         menuProjeto[0].style = 'display: block;';
                     }
+                });
+            });
+
+            botaoCompartilhar.forEach(botao => {
+                botao.addEventListener('click', () => {
+                    Swal.fire({
+                        html: `
+                            <div class="add__pessoas">
+                                <input type="text" class="input_email" placeholder="Email do Participante">
+                            </div>
+                        `,
+                        showDenyButton: true,
+                        confirmButtonText: "Adicionar",
+                        denyButtonText: `Cancelar`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const campoPessoa = document.querySelector('.input_email');
+
+                            adicionaPessoas_Projeto(campoPessoa, botao.classList[1]);
+                        }
+                    });
+                });
+            });
+
+            botaoRenomear.forEach(botao => {
+                botao.addEventListener('click', () => {
+                    const nomeAtualProjeto = document.querySelector(`.nomeProjeto${botao.classList[1]}`).textContent
+
+                    Swal.fire({
+                        html: `
+                            <div class="div_cl_renomearProjeto">
+                                <input type="text" class="input_nomeProjeto" placeholder="Nome do Projeto" value="${nomeAtualProjeto}">
+                            </div>
+                        `,
+                        showDenyButton: true,
+                        confirmButtonText: "Renomear",
+                        denyButtonText: `Cancelar`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const novoNomeProjeto = document.querySelector('.input_nomeProjeto');
+
+                            editarNomeProjeto(nomeAtualProjeto, novoNomeProjeto, botao.classList[1]);
+                        }
+                    });
                 })
+            })
+
+            botaoApagar.forEach(botao => {
+                botao.addEventListener('click', () => {
+                    const nomeProjeto = document.querySelector(`.nomeProjeto${botao.classList[1]}`).textContent;
+
+                    Swal.fire({
+                        title: `Tem certeza que deseja apagar ${nomeProjeto}?`,
+                        showDenyButton: true,
+                        confirmButtonText: "Apagar",
+                        denyButtonText: `Cancelar`
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            apagarProjeto(botao.classList[1]);
+                        }
+                    });
+                });
             });
 
             mudaStatus.forEach(status => {

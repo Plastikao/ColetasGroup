@@ -18,7 +18,7 @@ const blocosConvertido = await blocos.json();
 
 //#region EVENTS
 nomeHeaderProjeto.addEventListener('click', () => { mostraInputNomeProjeto() });
-nomeProjetoAlterar.addEventListener('blur', () => { editaNomeProjeto() });
+nomeProjetoAlterar.addEventListener('blur', () => { editarNomeProjeto() });
 botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
@@ -365,7 +365,7 @@ function mostraInputNomeProjeto() {
     nomeProjetoAlterar.focus() = true;
 }
 
-async function editaNomeProjeto() {
+async function editarNomeProjeto() {
     if (nomeProjetoAlterar.value != nomeHeaderProjeto.textContent) {
         await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
             method: 'PUT',
@@ -379,7 +379,6 @@ async function editaNomeProjeto() {
 
         mostraProjeto();
     }
-    
 
     nomeHeaderProjeto.hidden = false;
     nomeProjetoAlterar.hidden = true;

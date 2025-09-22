@@ -10,5 +10,6 @@ router.get('/projetos/:idProprietario', (req, res) => projetoController.pegaProj
 router.get('/projetos/busca/:idProjeto', (req, res) => projetoController.pegaProjetoPorId(req, res));
 router.post('/projetos', (req, res) => projetoController.criaNovo(req, res));
 router.put('/projetos/:id', (req, res) => projetoController.atualiza(req, res));
+router.delete('/projetos/:id', (req, res) => projetoController.exclui(req, res));
 
 module.exports = router;
