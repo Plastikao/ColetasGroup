@@ -10,6 +10,12 @@ class ParticipanteServices extends Services {
 
         return participantesPesquisa;
     }
+
+    async pegaProjetosCompartilhados(idUsuario) {
+        const projetosPesquisa = await super.pegaTodosOsProjetosCompartilhados(idUsuario);
+
+        return projetosPesquisa;
+    }
 }
 
 module.exports = ParticipanteServices;

@@ -16,15 +16,15 @@ var statusProjeto = '';
 //#endregion
 
 //#region EVENTS
-botaoStatusVermelho.addEventListener('click', ()=>{
+botaoStatusVermelho.addEventListener('click', () => {
     mudarContexto(botaoStatusVermelho);
 })
 
-botaoStatusAmarelo.addEventListener('click', ()=>{
+botaoStatusAmarelo.addEventListener('click', () => {
     mudarContexto(botaoStatusAmarelo);
 })
 
-botaoStatusVerde.addEventListener('click', ()=>{
+botaoStatusVerde.addEventListener('click', () => {
     mudarContexto(botaoStatusVerde);
 })
 
@@ -244,15 +244,44 @@ async function mostraProjetos() {
     const projetos = await fetch(`http://localhost:3000/projetos/${idProprietario}`);
     const projetosConvertido = await projetos.json();
 
+    const listaProjetos = projetosConvertido;
+
+    const compartilhados = await fetch(`http://localhost:3000/participantes/compartilhados/${idProprietario}`);
+    const compartilhadosConvertido = await compartilhados.json();
+
+    for (const compartilhado of compartilhadosConvertido) {
+        const projetoCompartilhado = await fetch(`http://localhost:3000/projetos/busca/${compartilhado.codProjeto}`);
+        const projetoCompartilhadoConvertido = await projetoCompartilhado.json();
+
+        listaProjetos.push(projetoCompartilhadoConvertido);
+    };
+
     mainBlocos.innerHTML = '';
     let i = 0;
+    let sinalCompartilhados = false;
 
-    projetosConvertido.forEach(projeto => {
+    listaProjetos.forEach(projeto => {
+        if (i == projetosConvertido.length-1 && compartilhadosConvertido.length > 0) {
+            sinalCompartilhados = true;
+        }
+        
+        desenhaProjeto(projeto, i, sinalCompartilhados);
+
+        i++
+    });
+
+    function desenhaProjeto(projeto, i, sinalCompartilhados) {
+        let sinal = '';
+
+        if (sinalCompartilhados) {
+            sinal = '<p>⇄</p>'
+        }
+
         if ((projeto.status == statusProjeto || statusProjeto == '') && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        <p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+                        ${sinal}<p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
                     </section>
 
                     <section class="cl_menuProjetos ${i}" style="display: none;">
@@ -385,10 +414,9 @@ async function mostraProjetos() {
                 status.setAttribute('selected', true);
             });
         }
-
-        i++
-    });
+    }
     
+    //#region FUNÇÕES DE ABRIR PROJETOS
     const blocosProjetos = document.querySelectorAll('.branco');
     const botaoMudaStatus = document.querySelectorAll('.cl_mudaStatus');
 
@@ -403,4 +431,5 @@ async function mostraProjetos() {
             window.location.href = './paginaProjetos.html';
         });
     });
+    //#endregion
 }

@@ -89,6 +89,12 @@ class Services {
             where: { codProjeto: idProjeto }
         })
     }
+
+    async pegaTodosOsProjetosCompartilhados(idUsuario) {
+        return dataSource[this.model].findAll({
+            where: { codUsuario: idUsuario }
+        })
+    }
 //#endregion
 
 //#region UPDATE

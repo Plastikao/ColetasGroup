@@ -21,6 +21,20 @@ class ParticipantesController extends Controller {
             console.log(`Seu erro foi: ${erro}`);
         }
     }
+
+    async pegaProjetos(req, res) {
+        const { idUsuario } = req.params;
+
+        try {
+            const projetosPesquisa = await participanteServices.pegaProjetosCompartilhados(Number(idUsuario));
+
+            return res.status(200).json(projetosPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
 }
     
 module.exports = ParticipantesController;
