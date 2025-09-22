@@ -1,6 +1,7 @@
 //#region VARIAVEIS
-const proprietario = window.localStorage.getItem('usuarioStorage');
+const proprietario = JSON.parse(window.localStorage.getItem('usuarioStorage'));
 const idProprietario = proprietario[0];
+const emailProprietario = proprietario[2];
 const botaoStatus = document.querySelectorAll('.buttonStatus');
 const botaoStatusVermelho = document.querySelector('#ButtonStatusVermelho');
 const botaoStatusVerde = document.querySelector('#ButtonStatusVerde');
@@ -12,7 +13,7 @@ const menuLateral = document.querySelector('#menuLateral');
 const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 const barraPesquisa = document.querySelector('.pesquisaInput');
 var pesquisaProjeto = '';
-var statusProjeto = '';
+var statusProjeto = [];
 //#endregion
 
 //#region EVENTS
@@ -38,15 +39,14 @@ barraPesquisa.addEventListener('keyup', () => {
 
 function mudarContexto(contexto){
     if (!contexto.classList.contains('active')) {
-        botaoStatus.forEach(function (contexto){ contexto.classList.remove('active') });
-
         contexto.classList.add('active')
-        statusProjeto = contexto.innerHTML;
+        statusProjeto.push(contexto.innerHTML);
     }
     
     else {
-        botaoStatus.forEach(function (contexto){ contexto.classList.remove('active') });
-        statusProjeto = '';
+        const indexContexto = statusProjeto.indexOf(contexto.innerHTML);
+        contexto.classList.remove('active')
+        statusProjeto.splice(indexContexto, 1);
     }
 
     mostraProjetos();
@@ -142,8 +142,29 @@ async function adicionaPessoas_Projeto(emailAdicionado, projetoId) {
 }
 
 async function enviarParaServidor(email, projetoId) {
+    if (email = emailProprietario) {
+        alert('Você já é o proprietário do projeto.');
+        return;
+    }
+    
     const participante = await fetch(`http://localhost:3000/usuarios/email/${email}`);
     const participanteConvertido = await participante.json();
+
+    const todosParticipantes = await fetch(`http://localhost:3000/participantes/${projetoId}`);
+    const todosParticipantesConvertido = await todosParticipantes.json();
+
+    let usuarioCompartilhado = false;
+
+    todosParticipantesConvertido.forEach(participante => {
+        if (participante.codUsuario == participanteConvertido.id) {
+            alert('Esse usuário já tem acesso ao projeto.');
+            usuarioCompartilhado = true;
+        }
+    });
+
+    if (usuarioCompartilhado) {
+        return;
+    }
 
     if (participanteConvertido) {
         const response = await fetch('http://localhost:3000/participantes', {
@@ -272,12 +293,20 @@ async function mostraProjetos() {
 
     function desenhaProjeto(projeto, i, sinalCompartilhados) {
         let sinal = '';
+        let botaoApagarProjeto = `
+            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
+            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
+            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
+        `;
+        let projetoCompartilhado = false;
 
         if (sinalCompartilhados) {
             sinal = '<p>⇄</p>'
+            botaoApagarProjeto = `<li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>`;
+            projetoCompartilhado = true;
         }
 
-        if ((projeto.status == statusProjeto || statusProjeto == '') && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
+        if ((statusProjeto.includes(projeto.status) || statusProjeto.length == 0) && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
@@ -286,13 +315,11 @@ async function mostraProjetos() {
 
                     <section class="cl_menuProjetos ${i}" style="display: none;">
                         <ul>
-                            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
-                            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
-                            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
+                            ${botaoApagarProjeto}
                         </ul>
                     </section>
 
-                    <section class="bloco_config branco" id="${projeto.id}">
+                    <section class="bloco_config branco ${projetoCompartilhado}" id="${projeto.id}">
                     </section>
 
                     <section class="bloco_config blocoBarra">
@@ -426,7 +453,8 @@ async function mostraProjetos() {
 
     blocosProjetos.forEach(bloco => {
         bloco.addEventListener('click', () => {
-            window.localStorage.setItem('projetoAberto', bloco.id);
+            const projetoAberto = [bloco.id, bloco.classList[2]];
+            window.localStorage.setItem('projetoAberto', JSON.stringify(projetoAberto));
 
             window.location.href = './paginaProjetos.html';
         });

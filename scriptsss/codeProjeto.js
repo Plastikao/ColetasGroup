@@ -1,5 +1,7 @@
 //#region VARIAVEIS
-const projetoAberto = window.localStorage.getItem('projetoAberto');
+const projetoAbertoConvertido = JSON.parse(window.localStorage.getItem('projetoAberto'));
+const projetoAberto = projetoAbertoConvertido[0];
+const projetoAbertoCompartilhado = projetoAbertoConvertido[1];
 
 const nomeHeaderProjeto = document.querySelector('#id_header__h1');
 nomeHeaderProjeto.hidden = false;
@@ -475,6 +477,10 @@ async function marcaCheckbox(checkbox) {
         })
     });
 }
+
+async function removerParticipante(idParticipante) {
+    await fetch(`http://localhost:3000/participantes/${idParticipante}`, {method: 'DELETE'});
+}
 //#endregion
 
 mostraProjeto();
@@ -567,15 +573,30 @@ async function mostraProjeto() {
     const participantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
     const participantesConvertido = await participantes.json();
     const listaParticipantes = document.querySelector('#id_listaParticipantes');
+    let removerVisivel = '';
 
-    participantesConvertido.forEach(async participante => {
+    if (projetoAbertoCompartilhado == 'true') {
+        removerVisivel = 'hidden';
+
+        const menuAddPessoas = document.querySelector('.add__pessoas');
+
+        menuAddPessoas.innerHTML = '';
+    }
+
+    for (const participante of participantesConvertido) {
         const participanteEmail = await fetch(`http://localhost:3000/usuarios/${participante.codUsuario}`);
         const participanteEmailConvertido = await participanteEmail.json();
 
         listaParticipantes.innerHTML += `
-            <li>${participanteEmailConvertido.email}</li>
+            <li><button class="cl_removerParticipante ${participante.id}" ${removerVisivel}>Remover</button>${participanteEmailConvertido.email}</li>
         `
-    })
+    };
+
+    const botaoRemoverParticipante = document.querySelectorAll('.cl_removerParticipante');
+
+    botaoRemoverParticipante.forEach(botao => {
+        botao.addEventListener('click', () => { removerParticipante(botao.classList[1]) })
+    });
     //#endregion
 }
 
@@ -588,6 +609,22 @@ const campoPessoa = document.querySelector('.input_nome');
 async function enviarParaServidor(nome) {
     const participante = await fetch(`http://localhost:3000/usuarios/email/${nome}`);
     const participanteConvertido = await participante.json();
+
+    const todosParticipantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
+    const todosParticipantesConvertido = await todosParticipantes.json();
+
+    let usuarioCompartilhado = false;
+
+    todosParticipantesConvertido.forEach(participante => {
+        if (participante.codUsuario == participanteConvertido.id) {
+            alert('Esse usuário já tem acesso ao projeto.');
+            usuarioCompartilhado = true;
+        }
+    });
+
+    if (usuarioCompartilhado) {
+        return;
+    }
 
     if (participanteConvertido) {
         const response = await fetch('http://localhost:3000/participantes', {
