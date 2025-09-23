@@ -23,6 +23,20 @@ class ClasseController extends Controller {
     }
 
     async pegaUmaClasse(req, res) {
+        const { id } = req.params;
+
+        try {
+            const classePesquisa = await classeServices.pegaClassePorId(Number(id));
+
+            return res.status(200).json(classePesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
+
+    async pegaClasseConteudo(req, res) {
         const { codClasse } = req.params;
 
         try {

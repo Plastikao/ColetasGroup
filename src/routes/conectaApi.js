@@ -4,6 +4,7 @@ const projetos = require('./projetosRoutes.js');
 const blocos = require('./blocosRoutes.js');
 const classes = require('./classesRoutes.js');
 const conteudos = require('./conteudosRoutes.js');
+const participantes = require('./participantesRoutes.js');
 
 module.exports = app => {
     app.use(
@@ -12,6 +13,7 @@ module.exports = app => {
         projetos,
         blocos,
         classes,
-        conteudos
+        conteudos,
+        participantes
     );
 };

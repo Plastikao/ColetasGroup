@@ -101,7 +101,7 @@ h1 {
 #progresso {
     background: linear-gradient(to right, #f45507, #ffb001);
     height: 100%;
-    width: 100%;
+    width: 50%;
 }
 
 .div__main-projetos {
@@ -281,5 +281,193 @@ a {
     &:hover{
         cursor: pointer;
         outline: solid 2px rgba(126, 151, 214, 0.37);
+    }
+}
+
+:root{
+    --fonte-: 1.2rem;
+    --corDeFundo-: #292d2e;
+    --TextoHeader-:#f6f6f6;
+    --preto-: #000000;
+}
+
+
+body, html{
+    background: linear-gradient(to top,white, rgb(211, 225, 243));
+    overflow-y: scroll;   /* desativa scroll horizontal e vertical */
+    height: 100%;
+    scrollbar-width: none;
+}
+
+
+/* inicio cabeçalho */
+
+#iconeHeader{
+    width: 100px;
+}
+
+#headerLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    width: 100%;
+}
+
+.header__ul{
+    display: flex;
+    padding: 20px 40px;
+    justify-content: space-between;
+    list-style-type: none;
+    color: var(--TextoHeader-);
+    align-items: center;
+}
+
+.header__h3{
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+
+.button_li{
+    width: 165px;
+    height: 45px;
+    
+}
+
+.stylepoint{
+    &:hover{
+        cursor: pointer;
+    }
+}
+a{
+    text-decoration: none;
+    color: #f6f6f6;
+}
+
+.projeto__link a{
+    color: rgb(31, 30, 36)
+}
+
+/* final cabeçalho */
+
+/* inicio botão e pesquisa */
+.allButtons{
+    background: linear-gradient(to right, #f45507, #ffb001);
+    color: var(--TextoHeader-);
+    font-size: var(--fonte-);
+    border: none;
+    border-radius: 20px;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        transform: scale(1.1);
+        box-shadow: rgb(243, 117, 32) 0 0 10px;
+    }
+}
+
+.button__section{
+    width: 200px;
+    height: 50px;
+}
+
+.meioBotaoPesquisa{
+    display: flex;
+    margin-top: 5rem;
+    justify-content: space-around;
+    padding: 0 18% 0 17%;
+}
+
+#bundabunda{
+    background-color: rgb(169, 196, 238);
+    border-radius: 50px;
+    opacity: 0.5;
+}
+
+.pesquisa{
+    width: 450px;
+    background: none;
+    border: none;
+    border-radius: 32px;
+    font-size: var(--fonte-);
+    text-align: center;
+    opacity: 1;
+    cursor:text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    & i{
+        font-size: 2rem;   
+        margin-right: 10px;
+        color: rgb(0, 0, 0);
+    }
+}
+
+.pesquisaInput{
+    background: none;
+    border: 0;
+    flex: 1;
+    outline: none;
+    padding: 20px;
+}
+
+    .pesquisaInput::placeholder{
+        color: black;
+        opacity: 1;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+.active{
+    opacity: 0.6;
+}
+
+.fa-bars{
+    font-size: 42px;
+    color: gray;
+}
+
+#menuLateral{
+    display: none;
+    width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    background-color: rgb(243, 243, 253);
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgb(175, 170, 196);
+    margin: 10px;
+    & ul{
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        gap: 20px;
+        width: 100%;
+        & i{
+            color: #292d2e;
+        }
+        & li{
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 10px;
+        }
+        & li:hover{
+            cursor: pointer;
+            background-color: rgb(237, 237, 245);
+            & i{
+                color: rgb(255, 123, 0);
+            }
+            &{
+                color: rgb(255, 123, 0);
+                font-weight: 600;
+            }
+        }
+        & .fa-solid{
+            font-size: 1.5rem;
+        }
     }
 }

@@ -51,11 +51,9 @@ async function logarUsuario(nomeOuEmail, senha) {
         }
         
         else {
-            window.localStorage.setItem('usuarioStorage', [
-                nomeEmailConvertido.id,
-                nomeEmailConvertido.nome,
-                nomeEmailConvertido.senha,
-            ])
+            const usuario = [nomeEmailConvertido.id, nomeEmailConvertido.nome, nomeEmailConvertido.email, nomeEmailConvertido.senha]
+
+            window.localStorage.setItem('usuarioStorage', JSON.stringify(usuario));
 
             window.location.href = './paginas/paginainicial.html'
         }

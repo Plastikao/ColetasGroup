@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,8 +15,31 @@
             referrerpolicy="no-referrer"
         />
     </head>
+    <header class="header">
+        <ul class="header__ul">
+            <li class="header__li" id="headerLogo"> <img src="../fotos/icon.png" id="iconeHeader" alt=""><H3 class="header__h3 stylepoint">AtlasFlow</H3></li>
+            <li class="header__li"><H3 class="header__h3 stylepoint">Calendário</H3></li>
+            <div id="bundabunda"><li>
+                <div class="pesquisa">
+                    <input type="search" placeholder="Pesquisar Projetos" class="meio__item pesquisaInput">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </li></div>
+            <li class="header__li" id="menuLateral-abrir"><i class="fa-solid fa-bars stylepoint"></i></li>
+        </ul>
+    </header>
+
+    <section id="menuLateral">
+        <ul>
+            <a href="./paginaMudarsenha.html"><li><i class="fa-solid fa-user"></i> Perfil</li></a>
+            <li><i class="fa-solid fa-gear"></i> Configurações</li>
+            <li><i class="fa-solid fa-trash"></i> Lixeira</li>
+            <li><i class="fa-solid fa-circle-question"></i> Ajuda</li>
+            <a href="../index.html"><li><i id="id_botao_sair" class="fa-solid fa-right-from-bracket"></i> Sair</li></a>
+        </ul>
+    </section>
+
     <body>
-        <a href="paginainicial.html"><i class="fa-solid fa-house"></i></a>
         <header class="header__principal">
             <div class="texto__emcima_da_barra">
                 <div id="botao__renomear">
@@ -36,6 +59,20 @@
                 <h3>Concluido 100%</h3>
                 <div id="progresso"></div>
             </div>
+
+            <section class="menu_add__pessoas">
+                <div id="listaPessoas">
+                    <h2>Membros do Projeto:</h2>
+                    <div id="pessoasContainer">
+                        <ul id="id_listaParticipantes"></ul>
+                    </div>
+                </div>
+            
+                <div class="add__pessoas">
+                    <input type="text" class="input_nome" placeholder="Email do Participante">
+                    <button class="add__pessoas__botao">Adicionar Participantes</button>
+                </div>
+            </section>
         </header>
         <button class="main__botao">Criar novo bloco</button>
         <main class="main__principal"></main>

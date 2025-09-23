@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Gravitas+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+:root{
+    --fonte-: 1.2rem;
+    --corDeFundo-: #292d2e;
+    --TextoHeader-:#f6f6f6;
+    --preto-: #000000;
+}
+
+
+body, html{
+    background: linear-gradient(to top, #000000, var(--corDeFundo-));
+
+    overflow-y: none;   /* desativa scroll horizontal e vertical */
+    height: 100%;
+}
+
+#iconeHeader{
+    width: 100px;
+}
+hr{
+    color: white;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+}
+
+#headerLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    width: 100%;
+    
+}
+.header__li{
+  display: flex;
+  gap: 40px;
+}
+
+.header__ul{
+    display: flex;
+    padding: 10px 40px;
+    justify-content: space-between;
+    list-style-type: none;
+    color: var(--TextoHeader-);
+    align-items: center;
+    }
+
+.header__h3{
+    font-size: 2.2rem;
+    font-weight: 500;
+}
+
+.stylepoint{
+    &:hover{
+        cursor: pointer;
+    }
+}
+a{
+    text-decoration: none;
+    color: #f6f6f6;
+}
+
+
+
+.pesquisa{
+    width: 450px;
+    background-color: #d9d9d9;
+    color: var(--preto-);
+    border: none;
+    border-radius: 32px;
+    font-size: var(--fonte-);
+    text-align: center;
+    opacity: 0.6;
+    cursor:text;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    & i{
+        font-size: 2rem;   
+        margin-right: 10px;
+    }
+}
+
+.pesquisaInput{
+    text-decoration: none;
+    border: 0;
+    flex: 1;
+    outline: none;
+    padding: 20px;
+}
+
+.fa-solid{
+    font-size: 42px;
+    color: white;
+}
+
+.botoes{
+    padding: 15px 80px;
+    border-radius: 10px;
+    color: white;
+    background-color:#848484;
+    border: none;
+    font-size: 1rem;
+}
+
+.secao_botoes{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+#h1__principal{
+    color: white;
+    font-size: 2.5rem;
+    text-align: center;
+    padding: 45px;
+
+}
+
+
+.principal__calendarios{
+    padding: 30px 5rem;
+    gap: 20px;
+    display: flex;
+    align-items: start;
+    overflow-y: hidden;
+    overflow-x: auto;
+    
+
+}
+
+.corpo__tarefas{
+   width: 400px;
+    background:linear-gradient(to bottom, #d9d9d9,rgb(179, 163, 163));
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-height: 32.8rem; /* ou a altura que você quiser */
+    overflow-y: auto; /* só scroll vertical */
+    overflow-x: hidden; /* esconde scroll horizontal */
+    gap: 10px;
+    flex-shrink: 0;
+
+}
+
+.nome__projeto_calendario{
+
+    background-color: white;
+    height: fit-content;
+    display: flex;
+    padding: 15px ;
+    border-radius: 15px;
+    justify-content: center; /* centraliza na horizontal */
+    align-items: center;  
+}
+
+.projeto__checkbox {
+    display: flex;
+    flex: 1;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    justify-content: space-between;
+
+    }
+
+.pai__projeto_checkbox{
+       display: flex;
+    flex: 1;
+    background-color: #a6a6a6;
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+
+}
+input[type="checkbox"] {
+  accent-color:  #00bf63; /* pode ser qualquer cor */
+}
+

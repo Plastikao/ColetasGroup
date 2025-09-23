@@ -10,6 +10,12 @@ class BlocoServices extends Services {
 
         return blocoPesquisa;
     }
+
+    async pegaBlocoPorClique(idBloco) {
+        const blocoPesquisa = await super.pegaUmRegistroPorId(idBloco);
+
+        return blocoPesquisa;
+    }
 }
 
 module.exports = BlocoServices;

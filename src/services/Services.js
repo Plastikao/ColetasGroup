@@ -7,13 +7,13 @@ class Services {
         this.model = nomeDoModel
     }
 
-    //#region CREATE
+//#region CREATE
     async criaRegistro(dadosDoRegistro) {
         return dataSource[this.model].create(dadosDoRegistro)
     }
-    //#endregion
+//#endregion
 
-    //#region READ
+//#region READ
     async pegaTodosOsRegistros() {
         return dataSource[this.model].findAll()
     }
@@ -60,6 +60,12 @@ class Services {
         })
     }
 
+    async pegaUmRegistroPorId(id) {
+        return dataSource[this.model].findOne({
+            where: { id: id },
+        })
+    }
+
     async pegaUmRegistroPorNome(nome) {
         return dataSource[this.model].findOne({
             where: { nome: nome },
@@ -77,9 +83,21 @@ class Services {
             where: { senha: senha },
         })
     }
-    //#endregion
 
-    //#region UPDATE
+    async pegaTodosOsParticipantes(idProjeto) {
+        return dataSource[this.model].findAll({
+            where: { codProjeto: idProjeto }
+        })
+    }
+    
+    async pegaTodosOsProjetosCompartilhados(idUsuario) {
+        return dataSource[this.model].findAll({
+            where: { codUsuario: idUsuario }
+        })
+    }
+//#endregion
+
+//#region UPDATE
     async atualizaRegistro(dadosAtualizados, id) {
         const listadeRegistrosAtualizados = await dataSource[this.model].update(
             dadosAtualizados,
@@ -94,7 +112,13 @@ class Services {
 
         return true
     }
-    //#endregion
+//#endregion
+
+//#region DELETE
+    async excluiRegistro(id) {
+        return dataSource[this.model].destroy({ where: { id: id } });
+    }
+//#endregion
 
     /*
   async pegaTodosOsRegistros () {
