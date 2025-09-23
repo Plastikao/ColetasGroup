@@ -1,7 +1,5 @@
 //#region VARIAVEIS
-const projetoAbertoConvertido = JSON.parse(window.localStorage.getItem('projetoAberto'));
-const projetoAberto = projetoAbertoConvertido[0];
-const projetoAbertoCompartilhado = projetoAbertoConvertido[1];
+const projetoAberto = window.localStorage.getItem('projetoAberto');
 
 const nomeHeaderProjeto = document.querySelector('#id_header__h1');
 nomeHeaderProjeto.hidden = false;
@@ -20,7 +18,7 @@ const blocosConvertido = await blocos.json();
 
 //#region EVENTS
 nomeHeaderProjeto.addEventListener('click', () => { mostraInputNomeProjeto() });
-nomeProjetoAlterar.addEventListener('blur', () => { editarNomeProjeto() });
+nomeProjetoAlterar.addEventListener('blur', () => { editaNomeProjeto() });
 botaoCriarBloco.addEventListener('click', () => { criarBloco() });
 //#endregion
 
@@ -78,16 +76,6 @@ async function alterarConteudo(conteudoAlterado, idConteudo) {
     mostraProjeto();
 }
 
-async function excluirConteudo(conteudo, tipoConteudo) {
-    if (tipoConteudo == 'imagem') {
-        await fetch(`http://localhost:3000/conteudos/imagem/${conteudo.conteudo}`, {method: 'DELETE'});
-    }
-
-    await fetch(`http://localhost:3000/conteudos/${conteudo.id}`, {method: 'DELETE'});
-
-    mostraProjeto();
-}
-
 async function abrirConteudo(conteudo) {
     const conteudoAberto = await fetch(`http://localhost:3000/conteudos/apresenta/${conteudo.classList[1]}`);
     const conteudoConvertido = await conteudoAberto.json();
@@ -120,7 +108,6 @@ async function abrirConteudo(conteudo) {
     Swal.fire({
         html:`
             <input type="text" name="nomeConteudo" class="cl_nomeConteudo" id="id_nomeConteudo" value="${conteudoConvertido.nomeConteudo}">
-            <button id="botao__excluir_conteudo"><i class="fa-solid fa-trash"></i></button>
 
             <div class="conteudoAberto" id="id_div_descricaoConteudo">
                 <h3>Descrição</h3>
@@ -135,7 +122,8 @@ async function abrirConteudo(conteudo) {
                 <h3>Conteúdo</h3>
                 ${tipoConteudo}
             </div>
-
+        `
+        /*
             <div class="conteudoAberto" id="id_div_conteudoComentarios">
                 <h3>Comentários</h3>
                 <input type="text" name="conteudoComentar" id="id_conteudoComentar" placeholder="Faça seu comentário...">
@@ -150,14 +138,13 @@ async function abrirConteudo(conteudo) {
                     </ul>
                 </div>
             </div>
-        `,
+        `*/,
 
         showConfirmButton: false
     });
 
     const nomeConteudo = document.querySelectorAll('.cl_nomeConteudo');
     const inputConteudo = document.querySelectorAll('.cl_conteudoConteudo');
-    const botaoExcluirConteudo = document.querySelector('#botao__excluir_conteudo');
 
     nomeConteudo.forEach(nome => {
         nome.addEventListener('change', () => { editarNomeConteudo(nome, conteudoConvertido.id) })
@@ -166,8 +153,6 @@ async function abrirConteudo(conteudo) {
     inputConteudo.forEach(conteudo => {
         conteudo.addEventListener('change', () => { alterarConteudo(conteudo, conteudoConvertido.id) });
     });
-
-    botaoExcluirConteudo.addEventListener('click', () => { excluirConteudo(conteudoConvertido, classeConvertido.tipoClasse) });
 }
 //#endregion
 
@@ -295,7 +280,7 @@ async function procuraClasse(blocoDaClasse) {
                         id="${classe.id}"
                         value="${classe.nomeClasse}"
                     />
-                    <button class="cl_botaoExcluirClasse ${classe.id}" id="botao__excluir_projetos-dentro"><i class="fa-solid fa-trash"></i></button>
+                    <button id="botao__excluir_projetos-dentro"><i class="fa-solid fa-trash"></i></button>
                     <button class="botao__main_projetos-dentro ${classe.id} ${classe.tipoClasse}"><i class="fa-solid fa-plus"></i></button>
                 </div>
                 ${mostraConteudo}
@@ -367,7 +352,11 @@ function mostraInputNomeProjeto() {
     nomeProjetoAlterar.focus() = true;
 }
 
-async function editarNomeProjeto() {
+async function editaNomeProjeto() {
+    if (nomeProjetoAlterar.value.length < 1) {
+        return;
+    }
+
     if (nomeProjetoAlterar.value != nomeHeaderProjeto.textContent) {
         await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
             method: 'PUT',
@@ -381,6 +370,7 @@ async function editarNomeProjeto() {
 
         mostraProjeto();
     }
+    
 
     nomeHeaderProjeto.hidden = false;
     nomeProjetoAlterar.hidden = true;
@@ -400,20 +390,6 @@ async function editarNomeBloco(bloco) {
     mostraProjeto();
 }
 
-async function excluirBloco(idBloco) {
-    const bloco = await fetch(`http://localhost:3000/blocos/excluir/${idBloco}`);
-    const blocoConvertido = await bloco.json();
-
-    const classes = await fetch(`http://localhost:3000/classes/busca/${blocoConvertido.id}`);
-    const classesConvertido = await classes.json();
-
-    for (const classe of classesConvertido) {
-        await excluirClasse(classe.id);
-    }
-    
-    await fetch(`http://localhost:3000/blocos/${idBloco}`, {method: 'DELETE'});
-}
-
 async function editarNomeClasse(classe) {
     await fetch(`http://localhost:3000/classes/${classe.id}`, {
         method: 'PUT',
@@ -426,20 +402,6 @@ async function editarNomeClasse(classe) {
     });
 
     mostraProjeto();
-}
-
-async function excluirClasse(idClasse) {
-    const classe = await fetch(`http://localhost:3000/classes/${idClasse}`);
-    const classeConvertido = await classe.json();
-
-    const conteudos = await fetch(`http://localhost:3000/conteudos/busca/${classeConvertido.id}`);
-    const conteudoConvertido = await conteudos.json();
-
-    for (const conteudo of conteudoConvertido) {
-        await excluirConteudo(conteudo, classeConvertido.tipoClasse);
-    };
-    
-    await fetch(`http://localhost:3000/classes/${idClasse}`, {method: 'DELETE'});
 }
 
 async function editarCheckbox(checkbox) {
@@ -477,10 +439,6 @@ async function marcaCheckbox(checkbox) {
         })
     });
 }
-
-async function removerParticipante(idParticipante) {
-    await fetch(`http://localhost:3000/participantes/${idParticipante}`, {method: 'DELETE'});
-}
 //#endregion
 
 mostraProjeto();
@@ -500,7 +458,6 @@ async function mostraProjeto() {
             <div class="div__main-projetos bloco${i}">
                 <input type="text" class="input__texto" id="${bloco.id}" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
                 <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
-                <button class="cl_botaoExcluirBloco ${bloco.id}"><i class="fa-solid fa-trash"></i></button>
                 ${mostraClasse}
             </div>
         `;
@@ -508,19 +465,7 @@ async function mostraProjeto() {
         i++;
     };
 
-    // BOTÕES DE APAGAR CLASSE E BLOCO //
-    const botaoExcluirBloco = document.querySelectorAll('.cl_botaoExcluirBloco');
-    const botaoExcluirClasse = document.querySelectorAll('.cl_botaoExcluirClasse');
-
-    botaoExcluirBloco.forEach(botao => {
-        botao.addEventListener('click', () => { excluirBloco(botao.classList[1]) })
-    });
-
-    botaoExcluirClasse.forEach(botao => {
-        botao.addEventListener('click', () => { excluirClasse(botao.classList[1]) })
-    });
-
-    //#region BOTÕES PARA ADICIONAR CLASSE E CONTEÚDO
+    // BOTÕES PARA ADICIONAR CLASSE E CONTEÚDO //
     const botaoCriarClasse = document.querySelectorAll('.botao__main_projetos');
     const botaoCriarConteudo = document.querySelectorAll('.botao__main_projetos-dentro');
 
@@ -536,9 +481,8 @@ async function mostraProjeto() {
 
         botao.addEventListener('click', () => { criarConteudo(idClasse, tipoClasse) });
     })
-    //#endregion
-
-    //#region INPUT PARA RENOMEAR BLOCO E CLASSE
+    
+    // INPUT PARA RENOMEAR BLOCO E CLASSE //
     const nomeBloco = document.querySelectorAll('.input__texto');
     const nomeClasse = document.querySelectorAll('.input__texto-dentro');
     const nomeCheckbox = document.querySelectorAll('.nomeConteudo_checkbox');
@@ -554,9 +498,8 @@ async function mostraProjeto() {
     nomeCheckbox.forEach(checkbox => {
         checkbox.addEventListener('change', () => { editarCheckbox(checkbox) })
     });
-    //#endregion
 
-    //#region BOTÕES PARA ABRIR CONTEÚDO
+    // BOTÕES PARA ABRIR CONTEÚDO //
     const botaoConteudo = document.querySelectorAll('.conteudoAbrivel');
     const valorCheckbox = document.querySelectorAll('.conteudo_checkbox');
 
@@ -567,105 +510,4 @@ async function mostraProjeto() {
     valorCheckbox.forEach(checkbox => {
         checkbox.addEventListener('click', () => { marcaCheckbox(checkbox) })
     });
-    //#endregion
-
-    //#region MOSTRAR PARTICIPANTES
-    const participantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
-    const participantesConvertido = await participantes.json();
-    const listaParticipantes = document.querySelector('#id_listaParticipantes');
-    let removerVisivel = '';
-
-    if (projetoAbertoCompartilhado == 'true') {
-        removerVisivel = 'hidden';
-
-        const menuAddPessoas = document.querySelector('.add__pessoas');
-
-        menuAddPessoas.innerHTML = '';
-    }
-
-    for (const participante of participantesConvertido) {
-        const participanteEmail = await fetch(`http://localhost:3000/usuarios/${participante.codUsuario}`);
-        const participanteEmailConvertido = await participanteEmail.json();
-
-        listaParticipantes.innerHTML += `
-            <li><button class="cl_removerParticipante ${participante.id}" ${removerVisivel}>Remover</button>${participanteEmailConvertido.email}</li>
-        `
-    };
-
-    const botaoRemoverParticipante = document.querySelectorAll('.cl_removerParticipante');
-
-    botaoRemoverParticipante.forEach(botao => {
-        botao.addEventListener('click', () => { removerParticipante(botao.classList[1]) })
-    });
-    //#endregion
 }
-
-// BOTÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
-const botaoAdicionaPessoa = document.querySelector('.add__pessoas__botao');
-const menuPessoasAdicionadas = document.querySelector('#pessoasContainer');
-const campoPessoa = document.querySelector('.input_nome');
-
-//#region FUNÇÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
-async function enviarParaServidor(nome) {
-    const participante = await fetch(`http://localhost:3000/usuarios/email/${nome}`);
-    const participanteConvertido = await participante.json();
-
-    const todosParticipantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
-    const todosParticipantesConvertido = await todosParticipantes.json();
-
-    let usuarioCompartilhado = false;
-
-    todosParticipantesConvertido.forEach(participante => {
-        if (participante.codUsuario == participanteConvertido.id) {
-            alert('Esse usuário já tem acesso ao projeto.');
-            usuarioCompartilhado = true;
-        }
-    });
-
-    if (usuarioCompartilhado) {
-        return;
-    }
-
-    if (participanteConvertido) {
-        const response = await fetch('http://localhost:3000/participantes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                codUsuario: participanteConvertido.id,
-                codProjeto: projetoAberto
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Erro ao adicionar participante.');
-        }
-    }
-
-    else {
-        alert('Usuário não existe.');
-        return;
-    }
-}
-
-// Função async para adicionar pessoa ao projeto
-
-async function adicionaPessoas_Projeto() {
-    const nome = campoPessoa.value;
-
-    if (!nome) {
-        alert("Email inválido.");
-        return;
-    }
-
-    try {
-        const resposta = await enviarParaServidor(nome);
-        console.log(resposta);
-    } catch (erro) {
-        alert(`${erro}, ERRO`);
-    }
-}
-
-botaoAdicionaPessoa.addEventListener('click', () => { adicionaPessoas_Projeto() });
-//#endregion
