@@ -9,8 +9,6 @@ const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
-const menuLateral = document.querySelector('#menuLateral') ;
-const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 const menuLateral = document.querySelector('#menuLateral');
 const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 const barraPesquisa = document.querySelector('.pesquisaInput');
@@ -462,12 +460,4 @@ async function mostraProjetos() {
         });
     });
     //#endregion
-}
-
-function ativarMenuLateral() {
-    if (menuLateral.style.display == "none") {
-        menuLateral.style.display = "block";
-    } else {
-        menuLateral.style.display = "none";
-    }
 }
