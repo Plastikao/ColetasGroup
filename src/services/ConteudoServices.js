@@ -16,6 +16,12 @@ class ConteudoServices extends Services {
 
         return conteudoPesquisa;
     }
+
+    async pegaCheckboxPorProjeto(idProjeto) {
+        const checkboxPesquisa = await super.pegaTodasAsCheckbox(idProjeto);
+
+        return checkboxPesquisa;
+    }
 }
 
 module.exports = ConteudoServices;

@@ -9,8 +9,6 @@ const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
-const menuLateral = document.querySelector('#menuLateral') ;
-const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 const menuLateral = document.querySelector('#menuLateral');
 const menuLateralBotao = document.querySelector('#menuLateral-abrir');
 const barraPesquisa = document.querySelector('.pesquisaInput');
@@ -309,6 +307,14 @@ async function mostraProjetos() {
         }
 
         if ((statusProjeto.includes(projeto.status) || statusProjeto.length == 0) && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
+            let progresso = projeto.progresso;
+            let corProgresso = '';
+
+            if (progresso == null) {
+                progresso = 100;
+                corProgresso = 'style="background: tomato"'
+            }
+
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
@@ -326,7 +332,7 @@ async function mostraProjetos() {
 
                     <section class="bloco_config blocoBarra">
                         <div class="barra" id="barraDentro">
-                            <div class="barraProgessoAumento" id="barraProgesso" style="width: 12%;"></div>
+                            <div class="barraProgessoAumento barraProgresso${i}" id="barraProgesso" ${corProgresso} style="width: ${progresso}%;"></div>
                         </div>
                         
                         <select name="selectStatus" class="cl_mudaStatus" id="mudaCor${i}">
@@ -462,12 +468,4 @@ async function mostraProjetos() {
         });
     });
     //#endregion
-}
-
-function ativarMenuLateral() {
-    if (menuLateral.style.display == "none") {
-        menuLateral.style.display = "block";
-    } else {
-        menuLateral.style.display = "none";
-    }
 }

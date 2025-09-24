@@ -65,6 +65,7 @@ router.delete('/conteudos/imagem/:nomeImagem', (req, res) => {
 
 router.get('/conteudos/busca/:idClasse', (req, res) => conteudoController.pegaConteudos(req, res));
 router.get('/conteudos/apresenta/:idConteudo', (req, res) => conteudoController.pegaUmConteudo(req, res));
+router.get('/conteudos/checkbox/:idProjeto', (req, res) => conteudoController.pegaCheckbox(req, res));
 router.post('/conteudos', (req, res) => conteudoController.criaNovo(req, res));
 router.put('/conteudos/:id', (req, res) => conteudoController.atualiza(req, res));
 router.delete('/conteudos/:id', (req, res) => conteudoController.exclui(req, res));

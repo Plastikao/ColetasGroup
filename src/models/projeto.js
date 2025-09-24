@@ -11,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       Projeto.hasMany(models.Blocos, {
         foreignKey: 'codProjeto'
       });
+
+      Projeto.belongsTo(models.Usuario, {
+        foreignKey: 'codProprietario'
+      });
     }
   }
   Projeto.init({
     tituloProjeto: DataTypes.STRING,
     status: DataTypes.STRING,
-    codProprietario: DataTypes.NUMBER
+    codProprietario: DataTypes.NUMBER,
+    progresso: DataTypes.NUMBER
   }, {
     sequelize,
     modelName: 'Projeto',
