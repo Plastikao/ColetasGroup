@@ -286,7 +286,6 @@ async function mostraProjetos() {
     mainBlocos.innerHTML = '';
     let i = 0;
     let sinalCompartilhados = false;
-    let permissaoCompartilhados = '';
 
     listaProjetos.forEach(projeto => {
         if (i == projetosConvertido.length-1 && compartilhadosConvertido.length > 0) {
@@ -300,40 +299,16 @@ async function mostraProjetos() {
 
     function desenhaProjeto(projeto, i, sinalCompartilhados) {
         let sinal = '';
-        let botaoMenu = `
-            <i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
-        `
-        let botoesMenuProjeto = `
-            <section class="cl_menuProjetos ${i}" style="display: none;">
-                <ul>
-                    <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
-                    <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
-                    <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
-                </ul>
-            </section>
-        `;
         let projetoCompartilhado = false;
+        let opacidadeBotaoMenu = 'style="opacity: 1;"';
 
         if (sinalCompartilhados) {
             sinal = '<p>⇄</p>';
-            botaoMenu = '';
-            botoesMenuProjeto = '';
+            opacidadeBotaoMenu = 'style="opacity: 0.3;"';
             projetoCompartilhado = true;
 
             if (projetoCompartilhado.permissao == 'administrador') {
-                botaoMenu = `
-                    <i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
-                `
-
-                botoesMenuProjeto = `
-                    <section class="cl_menuProjetos ${i}" style="display: none;">
-                        <ul>
-                            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
-                            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
-                            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
-                        </ul>
-                    </section>
-                `;
+                opacidadeBotaoMenu = 'style="opacity: 1;"';
             }
         }
 
@@ -352,10 +327,17 @@ async function mostraProjetos() {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        ${sinal}<p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p>${botaoMenu}
+                        ${sinal}<p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p>
+                        <i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
                     </section>
 
-                    ${botoesMenuProjeto}
+                    <section class="cl_menuProjetos ${i}" style="display: none;">
+                        <ul>
+                            <li class="cl_botaoCompartilhar ${projeto.id}" ${opacidadeBotaoMenu}><i class="fa-solid fa-user"></i> Compartilhar</li>
+                            <li class="cl_botaoRenomear ${projeto.id}" ${opacidadeBotaoMenu}><i class="fa-solid fa-gear"></i> Renomear</li>
+                            <li class="cl_botaoApagar ${projeto.id}" ${opacidadeBotaoMenu}><i class="fa-solid fa-trash"></i> Apagar</li>
+                        </ul>
+                    </section>
 
                     <section class="bloco_config branco ${projetoCompartilhado}" id="${projeto.id}">
                     </section>
