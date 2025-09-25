@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       Blocos.hasMany(models.Classes, {
         foreignKey: 'codBloco'
       });
+
+      Blocos.belongsTo(models.Projeto, {
+        foreignKey: 'codProjeto'
+      });
     }
   }
   Blocos.init({

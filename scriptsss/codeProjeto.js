@@ -19,6 +19,8 @@ const projetoConvertido = await projeto.json();
 
 const blocos = await fetch(`http://localhost:3000/blocos/busca/${projetoAberto}`);
 const blocosConvertido = await blocos.json();
+
+var progresso = 0;
 //#endregion
 
 //#region EVENTS
@@ -260,6 +262,7 @@ async function criarConteudo(idClasse, tipoClasse) {
         })
     });
 
+    atualizaProgresso();
     mostraProjeto();
 }
 //#endregion
@@ -469,16 +472,68 @@ async function marcaCheckbox(checkbox) {
             conteudo: valorCheckbox
         })
     });
+
+    atualizaProgresso();
 }
 
 async function removerParticipante(idParticipante) {
     await fetch(`http://localhost:3000/participantes/${idParticipante}`, {method: 'DELETE'});
+}
+
+async function atualizaProgresso() {
+    const todasCheckbox = await fetch(`http://localhost:3000/conteudos/checkbox/${projetoAberto}`);
+    const todasCheckboxConvertido = await todasCheckbox.json();
+
+    let quantCheckbox = todasCheckboxConvertido.length;
+    let quantCheckboxChecked = 0;
+
+    if (quantCheckbox > 0) {
+        for (const checkbox of todasCheckboxConvertido) {
+            if (checkbox.conteudo == 'checked') {
+                quantCheckboxChecked++;
+            }
+        };
+
+        progresso = ((100 * quantCheckboxChecked) / quantCheckbox).toFixed(2);
+
+        document.querySelector('#id_textoProgresso').innerHTML = `Concluído ${progresso}%`;
+        document.querySelector('#progresso').style.width = `${progresso}%`;
+    }
+
+    else {
+        progresso = null;
+
+        document.querySelector('#id_textoProgresso').innerHTML = '';
+        document.querySelector('#progresso').style.width = `${progresso}%`;
+        document.querySelector('#progresso').style.backgroundColor = 'tomato';
+    }
+    
+    await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            progresso: progresso
+        })
+    });
 }
 //#endregion
 
 mostraProjeto();
 
 async function mostraProjeto() {
+    if (projetoConvertido.progresso == null) {
+        document.querySelector('#id_textoProgresso').innerHTML = '';
+        document.querySelector('#progresso').style.width = `100%`;
+        document.querySelector('#progresso').style.background = 'tomato';
+    }
+
+    else {
+        document.querySelector('#id_textoProgresso').innerHTML = `Concluído ${projetoConvertido.progresso}%`;
+        document.querySelector('#progresso').style.width = `${projetoConvertido.progresso}%`;
+    }
+
     nomeHeaderProjeto.innerHTML = projetoConvertido.tituloProjeto;
     nomeProjetoAlterar.value = projetoConvertido.tituloProjeto;
 

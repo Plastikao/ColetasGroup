@@ -35,6 +35,20 @@ class ConteudoController extends Controller {
             console.log(`Seu erro foi: ${erro}`);
         }
     }
+
+    async pegaCheckbox(req, res) {
+        const { idProjeto } = req.params;
+
+        try {
+            const checkboxPesquisa = await conteudoServices.pegaCheckboxPorProjeto(Number(idProjeto));
+
+            return res.status(200).json(checkboxPesquisa);
+        }
+        
+        catch (erro) {
+            console.log(`Seu erro foi: ${erro}`);
+        }
+    }
 }
 
 module.exports = ConteudoController;

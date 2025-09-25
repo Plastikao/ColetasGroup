@@ -1,6 +1,6 @@
 const { ConnectionCheckOutFailedEvent } = require('mongodb')
 const dataSource = require('../models')
-const { Op } = require('sequelize')
+const { Op, where } = require('sequelize')
 
 class Services {
     constructor(nomeDoModel) {
@@ -57,6 +57,29 @@ class Services {
     async pegaUmConteudoAberto(idConteudo) {
         return dataSource[this.model].findOne({
             where: { id: idConteudo },
+        })
+    }
+
+    async pegaTodasAsCheckbox(idProjeto) {
+        const Classes = dataSource['Classes'];
+        const Blocos = dataSource['Blocos'];
+        const Projetos = dataSource['Projeto'];
+
+        return dataSource[this.model].findAll({
+            include: [{
+                model: Classes,
+                where: { tipoClasse: 'checkbox' },
+                required: true,
+                include: [{
+                    model: Blocos,
+                    required: true,
+                    include: [{
+                        model: Projetos,
+                        where: { id: idProjeto },
+                        required: true
+                    }]
+                }]
+            }]
         })
     }
 
