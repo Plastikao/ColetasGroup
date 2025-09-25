@@ -635,15 +635,47 @@ async function mostraProjeto() {
         const participanteEmail = await fetch(`http://localhost:3000/usuarios/${participante.codUsuario}`);
         const participanteEmailConvertido = await participanteEmail.json();
 
+        let opcoesPermissao = `
+            <option class="mudaPermMembro" value="membro" selected>Membro</option>
+            <option class="mudaPermAdm" value="administrador">Administrador</option>
+        `
+
+        if (participante.permissao == 'administrador') {
+            opcoesPermissao = `
+                <option class="mudaPermMembro" value="membro">Membro</option>
+                <option class="mudaPermAdm" value="administrador" selected>Administrador</option>
+            `
+        }
+
         listaParticipantes.innerHTML += `
-            <li><button class="cl_removerParticipante ${participante.id}" ${removerVisivel}>Remover</button>${participanteEmailConvertido.email}</li>
+            <li>
+                <button class="cl_removerParticipante ${participante.id}" ${removerVisivel}>Remover</button>
+                <span>${participanteEmailConvertido.email}</span>
+                <select name="selectPermissao" class="cl_mudaPermissao" id="mudaPermissao${participante.id}">
+                    ${opcoesPermissao}
+                </select>
+            </li>
         `
     };
 
     const botaoRemoverParticipante = document.querySelectorAll('.cl_removerParticipante');
+    const botaoAlterarPermissao = document.querySelectorAll('.cl_mudaPermissao');
 
     botaoRemoverParticipante.forEach(botao => {
         botao.addEventListener('click', () => { removerParticipante(botao.classList[1]) })
+    });
+
+    botaoAlterarPermissao.forEach(botao => {
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
+        botao.addEventListener('change', () => { alert(botao.value) });
     });
     //#endregion
 }
@@ -682,7 +714,8 @@ async function enviarParaServidor(nome) {
             },
             body: JSON.stringify({
                 codUsuario: participanteConvertido.id,
-                codProjeto: projetoAberto
+                codProjeto: projetoAberto,
+                permissao: 'membro'
             })
         });
 

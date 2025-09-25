@@ -6,6 +6,7 @@ const botaoStatus = document.querySelectorAll('.buttonStatus');
 const botaoStatusVermelho = document.querySelector('#ButtonStatusVermelho');
 const botaoStatusVerde = document.querySelector('#ButtonStatusVerde');
 const botaoStatusAmarelo = document.querySelector('#ButtonStatusAmarelo');
+const botaoStatusAzul = document.querySelector('#ButtonStatusAzul');
 const botaoCriarProjeto = document.querySelector('#id_botao_criarProjeto');
 const mainBlocos = document.querySelector('#id_mainBlocos');
 const botaoSair = document.querySelector('#id_botao_sair');
@@ -27,6 +28,10 @@ botaoStatusAmarelo.addEventListener('click', () => {
 
 botaoStatusVerde.addEventListener('click', () => {
     mudarContexto(botaoStatusVerde);
+})
+
+botaoStatusAzul.addEventListener('click', () => {
+    mudarContexto(botaoStatusAzul);
 })
 
 menuLateralBotao.addEventListener('click', () => { ativarMenuLateral() });
@@ -142,8 +147,8 @@ async function adicionaPessoas_Projeto(emailAdicionado, projetoId) {
 }
 
 async function enviarParaServidor(email, projetoId) {
-    if (email = emailProprietario) {
-        alert('Você não pode se colocar no projeto.');
+    if (email == emailProprietario) {
+        alert('Esse usuário já tem acesso ao projeto.');
         return;
     }
 
@@ -174,7 +179,8 @@ async function enviarParaServidor(email, projetoId) {
             },
             body: JSON.stringify({
                 codUsuario: participanteConvertido.id,
-                codProjeto: projetoId
+                codProjeto: projetoId,
+                permissao: 'membro'
             })
         });
 
@@ -280,6 +286,7 @@ async function mostraProjetos() {
     mainBlocos.innerHTML = '';
     let i = 0;
     let sinalCompartilhados = false;
+    let permissaoCompartilhados = '';
 
     listaProjetos.forEach(projeto => {
         if (i == projetosConvertido.length-1 && compartilhadosConvertido.length > 0) {
@@ -293,20 +300,47 @@ async function mostraProjetos() {
 
     function desenhaProjeto(projeto, i, sinalCompartilhados) {
         let sinal = '';
+        let botaoMenu = `
+            <i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+        `
         let botoesMenuProjeto = `
-            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
-            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
-            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
+            <section class="cl_menuProjetos ${i}" style="display: none;">
+                <ul>
+                    <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
+                    <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
+                    <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
+                </ul>
+            </section>
         `;
         let projetoCompartilhado = false;
 
         if (sinalCompartilhados) {
-            sinal = '<p>⇄</p>'
-            botoesMenuProjeto = `<li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>`;
+            sinal = '<p>⇄</p>';
+            botaoMenu = '';
+            botoesMenuProjeto = '';
             projetoCompartilhado = true;
+
+            if (projetoCompartilhado.permissao == 'administrador') {
+                botaoMenu = `
+                    <i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+                `
+
+                botoesMenuProjeto = `
+                    <section class="cl_menuProjetos ${i}" style="display: none;">
+                        <ul>
+                            <li class="cl_botaoCompartilhar ${projeto.id}"><i class="fa-solid fa-user"></i> Compartilhar</li>
+                            <li class="cl_botaoRenomear ${projeto.id}"><i class="fa-solid fa-gear"></i> Renomear</li>
+                            <li class="cl_botaoApagar ${projeto.id}"><i class="fa-solid fa-trash"></i> Apagar</li>
+                        </ul>
+                    </section>
+                `;
+            }
         }
 
-        if ((statusProjeto.includes(projeto.status) || statusProjeto.length == 0) && ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))) {
+        if (
+            (statusProjeto.includes(projeto.status) || (statusProjeto.includes('Compartilhado') && sinal == '<p>⇄</p>') || statusProjeto.length == 0) &&
+            ((projeto.tituloProjeto).toLowerCase().includes(pesquisaProjeto))
+        ) {
             let progresso = projeto.progresso;
             let corProgresso = '';
 
@@ -318,14 +352,10 @@ async function mostraProjetos() {
             mainBlocos.innerHTML += `
                 <div class="meio_bloco">
                     <section class="bloco_config">
-                        ${sinal}<p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p><i class="cl_botaoMenuProjetos ${i} fa-solid fa-ellipsis"></i>
+                        ${sinal}<p class="nomeProjeto${projeto.id}">${projeto.tituloProjeto}</p>${botaoMenu}
                     </section>
 
-                    <section class="cl_menuProjetos ${i}" style="display: none;">
-                        <ul>
-                            ${botoesMenuProjeto}
-                        </ul>
-                    </section>
+                    ${botoesMenuProjeto}
 
                     <section class="bloco_config branco ${projetoCompartilhado}" id="${projeto.id}">
                     </section>

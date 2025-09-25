@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Participantes.init({
     codUsuario: DataTypes.INTEGER,
-    codProjeto: DataTypes.INTEGER
+    codProjeto: DataTypes.INTEGER,
+    permissao: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Participantes',
