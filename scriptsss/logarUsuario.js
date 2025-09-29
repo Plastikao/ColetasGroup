@@ -15,7 +15,7 @@ usuarioLogado()
 function usuarioLogado() {
     const usuario = window.localStorage.getItem('usuarioStorage')
 
-    if (!usuario) {
+    if (usuario) {
         window.location.href = './paginas/paginainicial.html'
     }
 }

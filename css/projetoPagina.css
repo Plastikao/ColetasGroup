@@ -9,14 +9,13 @@
     border: none;
 }
 
-i{
+i {
     color: white;
 }
 
-input[type="checkbox"] {
-  accent-color:  #00bf63; /* pode ser qualquer cor */
-  color: white
-  ;
+input[type='checkbox'] {
+    accent-color: #00bf63; /* pode ser qualquer cor */
+    color: white;
 }
 
 :root {
@@ -28,7 +27,7 @@ input[type="checkbox"] {
 
 body,
 html {
-    background: linear-gradient(to bottom,rgb(238, 238, 245), #d4def3);
+    background: linear-gradient(to bottom, rgb(238, 238, 245), #d4def3);
     height: 100%;
     overflow: hidden;
 }
@@ -107,7 +106,7 @@ h1 {
 
 .div__main-projetos {
     width: 400px;
-    background:linear-gradient(to bottom, #dee2f8,rgb(197, 203, 241));
+    background: linear-gradient(to bottom, #dee2f8, rgb(197, 203, 241));
     border-radius: 11px;
     display: flex;
     flex-direction: column;
@@ -125,12 +124,12 @@ h1 {
     width: 10px;
 }
 
-.main-projetosBotoes{
+.main-projetosBotoes {
     display: flex;
     justify-content: space-between;
 }
 
-.cl_botaoExcluirBloco{
+.cl_botaoExcluirBloco {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,16 +139,16 @@ h1 {
     height: 40px;
     gap: 3px;
     padding: 0 3px;
-    & i{
+    & i {
         font-size: 1rem;
     }
-    & h3{
+    & h3 {
         color: white;
         font-weight: 400;
     }
-        &:hover{
-            cursor: pointer;
-            background-color: rgb(183, 23, 23);
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(183, 23, 23);
     }
 }
 
@@ -194,7 +193,7 @@ h1 {
     margin-bottom: 15px;
     font-weight: bolder;
     transition: 0.5s ease-in-out;
-        &:hover{
+    &:hover {
         box-shadow: orange 0 0 20px;
     }
 }
@@ -206,7 +205,7 @@ h1 {
     height: 42px;
     border-radius: 10px;
     font-size: 1.3rem;
-      min-height: 42px;
+    min-height: 42px;
 }
 
 .botao__main_projetos {
@@ -218,7 +217,7 @@ h1 {
     font-size: 1rem;
     border-radius: 11px;
     min-height: 35px;
-    &:hover{
+    &:hover {
         background-color: #06aa5b;
         cursor: pointer;
     }
@@ -277,7 +276,6 @@ a {
     border-radius: 10px;
     overflow: hidden;
     gap: 10px;
-
 }
 
 .mains__projetos-dentro-2 {
@@ -303,45 +301,44 @@ a {
     transform: scale(1.5);
 }
 
-.conteudoAbrivel{
+.conteudoAbrivel {
     padding: 10px 10px;
     background-color: rgb(250, 250, 250);
     border-radius: 5px;
-    &:hover{
+    &:hover {
         cursor: pointer;
         outline: solid 2px rgba(126, 151, 214, 0.37);
     }
 }
 
-:root{
+:root {
     --fonte-: 1.2rem;
     --corDeFundo-: #292d2e;
-    --TextoHeader-:#f6f6f6;
+    --TextoHeader-: #f6f6f6;
     --preto-: #000000;
 }
 
-
-body, html{
-    background: linear-gradient(to top,white, rgb(211, 225, 243));
-    overflow-y: scroll;   /* desativa scroll horizontal e vertical */
+body,
+html {
+    background: linear-gradient(to top, white, rgb(211, 225, 243));
+    overflow-y: scroll; /* desativa scroll horizontal e vertical */
     height: 100%;
     scrollbar-width: none;
 }
 
-
 /* inicio cabeçalho */
 
-#iconeHeader{
+#iconeHeader {
     width: 100px;
 }
 
-#headerLogo a{
+#headerLogo a {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.header__ul{
+.header__ul {
     display: flex;
     padding: 20px 40px;
     justify-content: space-between;
@@ -350,66 +347,65 @@ body, html{
     align-items: center;
 }
 
-.header__h3{
+.header__h3 {
     font-size: 2.2rem;
     font-weight: 500;
 }
 
-.button_li{
+.button_li {
     width: 165px;
     height: 45px;
-
 }
 
-.stylepoint{
-    &:hover{
+.stylepoint {
+    &:hover {
         cursor: pointer;
     }
 }
-a{
+a {
     text-decoration: none;
     color: #f6f6f6;
 }
 
-.projeto__link a{
-    color: rgb(31, 30, 36)
+.projeto__link a {
+    color: rgb(31, 30, 36);
 }
 
 /* final cabeçalho */
 
 /* inicio botão e pesquisa */
-.allButtons{
+.allButtons {
     background: linear-gradient(to right, #f45507, #ffb001);
     color: var(--TextoHeader-);
     font-size: var(--fonte-);
     border: none;
     border-radius: 20px;
     transition: 0.3s ease-in-out;
-    &:hover{
+    &:hover {
         transform: scale(1.1);
         box-shadow: rgb(243, 117, 32) 0 0 10px;
     }
 }
 
-.button__section{
+.button__section {
     width: 200px;
     height: 50px;
 }
 
-.meioBotaoPesquisa{
+.meioBotaoPesquisa {
     display: flex;
     margin-top: 5rem;
     justify-content: space-around;
     padding: 0 18% 0 17%;
 }
 
-#bundabunda{
+#bundabunda {
     background-color: rgb(169, 196, 238);
     border-radius: 50px;
     opacity: 0.5;
 }
 
-.pesquisa{
+.pesquisa {
     width: 450px;
     background: none;
     border: none;
@@ -417,19 +413,19 @@ a{
     font-size: var(--fonte-);
     text-align: center;
     opacity: 1;
-    cursor:text;
+    cursor: text;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden;
-    & i{
-        font-size: 2rem;   
+    & i {
+        font-size: 2rem;
         margin-right: 10px;
         color: rgb(0, 0, 0);
     }
 }
 
-.pesquisaInput{
+.pesquisaInput {
     background: none;
     border: 0;
     flex: 1;
@@ -437,23 +433,23 @@ a{
     padding: 20px;
 }
 
-    .pesquisaInput::placeholder{
-        color: black;
-        opacity: 1;
-        font-size: 1rem;
-        font-weight: 600;
-    }
+.pesquisaInput::placeholder {
+    color: black;
+    opacity: 1;
+    font-size: 1rem;
+    font-weight: 600;
+}
 
-.active{
+.active {
     opacity: 0.6;
 }
 
-.fa-bars{
+.fa-bars {
     font-size: 42px;
     color: gray;
 }
 
-#menuLateral{
+#menuLateral {
     display: none;
     width: 300px;
     flex-direction: column;
@@ -466,32 +462,32 @@ a{
     border-radius: 10px;
     box-shadow: 0 0 50px rgb(175, 170, 196);
     margin: 10px;
-    & ul{
+    & ul {
         display: flex;
         flex-direction: column;
         list-style: none;
         gap: 20px;
         width: 100%;
-        & i{
+        & i {
             color: #292d2e;
         }
-        & li{
+        & li {
             padding: 10px 20px;
             width: 100%;
             border-radius: 10px;
         }
-        & li:hover{
+        & li:hover {
             cursor: pointer;
             background-color: rgb(237, 237, 245);
-            & i{
+            & i {
                 color: rgb(255, 123, 0);
             }
-            &{
+            & {
                 color: rgb(255, 123, 0);
                 font-weight: 600;
             }
         }
-        & .fa-solid{
+        & .fa-solid {
             font-size: 1.5rem;
         }
     }
