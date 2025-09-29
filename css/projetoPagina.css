@@ -44,6 +44,7 @@ h1 {
     color: rgb(29, 31, 41);
     cursor: pointer;
 }
+
 .header__principal {
     display: flex;
     flex-direction: column;
@@ -122,6 +123,34 @@ h1 {
 /* largura da barra */
 ::-webkit-scrollbar {
     width: 10px;
+}
+
+.main-projetosBotoes{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cl_botaoExcluirBloco{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(223, 32, 32);
+    border-radius: 10px;
+    width: 140px;
+    height: 40px;
+    gap: 3px;
+    padding: 0 3px;
+    & i{
+        font-size: 1rem;
+    }
+    & h3{
+        color: white;
+        font-weight: 400;
+    }
+        &:hover{
+            cursor: pointer;
+            background-color: rgb(183, 23, 23);
+    }
 }
 
 /* trilho da barra */
@@ -306,14 +335,10 @@ body, html{
     width: 100px;
 }
 
-#headerLogo{
+#headerLogo a{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-header{
-    width: 100%;
 }
 
 .header__ul{
@@ -333,7 +358,7 @@ header{
 .button_li{
     width: 165px;
     height: 45px;
-    
+
 }
 
 .stylepoint{

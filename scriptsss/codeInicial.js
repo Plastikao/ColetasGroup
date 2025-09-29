@@ -303,7 +303,7 @@ async function mostraProjetos() {
         let opacidadeBotaoMenu = 'style="opacity: 1;"';
 
         if (sinalCompartilhados) {
-            sinal = '<p>⇄</p>';
+            sinal = '<i class="fa-solid fa-share"></i>';
             opacidadeBotaoMenu = 'style="opacity: 0.3;"';
             projetoCompartilhado = true;
 

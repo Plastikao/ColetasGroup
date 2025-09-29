@@ -505,7 +505,7 @@ async function atualizaProgresso() {
 
         document.querySelector('#id_textoProgresso').innerHTML = '';
         document.querySelector('#progresso').style.width = `${progresso}%`;
-        document.querySelector('#progresso').style.backgroundColor = 'tomato';
+        document.querySelector('#progresso').style.backgroundColor = 'gray';
     }
     
     await fetch(`http://localhost:3000/projetos/${projetoAberto}`, {
@@ -524,9 +524,9 @@ mostraProjeto();
 
 async function mostraProjeto() {
     if (projetoConvertido.progresso == null) {
-        document.querySelector('#id_textoProgresso').innerHTML = '';
+        document.querySelector('#id_textoProgresso').innerHTML = 'Sem tarefas aqui!';
         document.querySelector('#progresso').style.width = `100%`;
-        document.querySelector('#progresso').style.background = 'tomato';
+        document.querySelector('#progresso').style.background = 'gray';
     }
 
     else {
@@ -547,8 +547,8 @@ async function mostraProjeto() {
         mainPrincipal.innerHTML += `
             <div class="div__main-projetos bloco${i}">
                 <input type="text" class="input__texto" id="${bloco.id}" placeholder="Nome do bloco" value="${bloco.nomeBloco}"/>
-                <button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
-                <button class="cl_botaoExcluirBloco ${bloco.id}"><i class="fa-solid fa-trash"></i></button>
+                <div class="main-projetosBotoes"><button class="botao__main_projetos ${bloco.id}">Criar nova classe</button>
+                <button class="cl_botaoExcluirBloco ${bloco.id}"><i class="fa-solid fa-triangle-exclamation"></i><h3>Excluir Bloco</h3></button></div>
                 ${mostraClasse}
             </div>
         `;

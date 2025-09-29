@@ -189,12 +189,18 @@ a{
     padding: 0 20px 10px 20px;
     display: flex;
     flex-direction: column; 
+    justify-content: space-around;
     transition: 0.3s;
     &:hover{
         transform: scale(1.02) translateY(-15px);
         box-shadow: rgb(170, 186, 241) 0 0 30px;
         cursor: pointer;
     }
+}
+
+select {
+    appearance: none;
+    border: none;
 }
 
 p{
@@ -207,6 +213,10 @@ p{
 .fa-solid{
     font-size: 42px;
     color: gray;
+}
+
+.fa-share{
+    font-size: 1.5rem;
 }
 
 .branco{
