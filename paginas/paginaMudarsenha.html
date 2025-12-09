@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/paginamudarSenhaWhite.css">
+    <script src="../scriptsss/editarSenha.js" defer></script>
 </head>
 <body>
   
@@ -13,15 +14,15 @@
         
         <img src="../fotos/user-icon-on-transparent-background-free-png.webp" alt="fotoLogin" width="250px" height="150px">
         
-        <h3 class="principal_h3">Nome de usuário</h3>
+        <h3 class="principal_h3" id="nomeUsuario">Nome de usuário</h3>
         <p id="princpal_paragrafo">id usuário</p>
         
         <h3 class="principal_h3">Email: <span id="span_email"></span></h3> <!-- Span que recebe a variável de email do usuario-->
         <div class="principal_text_senhas">
-            <input type="text" placeholder="Nova senha" class="text_senhas"> <input type="text" placeholder="Confirmar senha"  class="text_senhas">
+            <input type="text" placeholder="Nova senha" class="text_senhas1"> <input type="text" placeholder="Confirmar senha"  class="text_senhas2">
         </div>
     
-        <input type="password" placeholder="Senha atual" class="text_senhas">
+        <input type="password" placeholder="Senha atual" class="text_senhas3">
         <button id="bt_altera_senha">Alterar senha</button>
     
         <a href="./paginainicial.html"><button id="botao_voltar" class="stylepoint">Voltar</button> </a> 

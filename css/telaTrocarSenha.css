@@ -12,8 +12,6 @@
     --preto-: #000000;
 }
 
-
-
 body{
     background: linear-gradient(to bottom, #000000, var(--corDeFundo-) , #000000);
     overflow: hidden;   /* desativa scroll horizontal e vertical */

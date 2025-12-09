@@ -13,7 +13,9 @@ botaoLogin.addEventListener('click', () => {
 usuarioLogado()
 
 function usuarioLogado() {
-    const usuario = window.localStorage.getItem('usuarioStorage')
+    const usuario = JSON.parse(window.localStorage.getItem('usuarioStorage'));
+
+    //alert(usuario)
 
     if (usuario) {
         window.location.href = './paginas/paginainicial.html'
