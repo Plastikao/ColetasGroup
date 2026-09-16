@@ -3,7 +3,7 @@ const ParticipanteServices = require('../services/ParticipanteServices.js');
 
 const participanteServices = new ParticipanteServices();
 
-class ParticipantesController extends Controller {
+class ParticipanteController extends Controller {
     constructor() {
         super(participanteServices);
     }

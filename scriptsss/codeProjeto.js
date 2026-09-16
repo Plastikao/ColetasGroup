@@ -599,88 +599,22 @@ async function mostraProjeto() {
         classe.addEventListener('change', () => { editarNomeClasse(classe) });
     });
 
-    nomeCheckbox.forEach(checkbox => {
-        checkbox.addEventListener('change', () => { editarCheckbox(checkbox) })
-    });
-    //#endregion
-
-    //#region BOTÕES PARA ABRIR CONTEÚDO
-    const botaoConteudo = document.querySelectorAll('.conteudoAbrivel');
-    const valorCheckbox = document.querySelectorAll('.conteudo_checkbox');
-
-    botaoConteudo.forEach(botao => {
-        botao.addEventListener('click', () => { abrirConteudo(botao) });
-    });
-
-    valorCheckbox.forEach(checkbox => {
-        checkbox.addEventListener('click', () => { marcaCheckbox(checkbox) })
-    });
-    //#endregion
-
-    //#region MOSTRAR PARTICIPANTES
+    // MOSTRAR PARTICIPANTES //
     const participantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
-    const participantesConvertido = await participantes.json();
+    const participanteConvertido = await participantes.json();
     const listaParticipantes = document.querySelector('#id_listaParticipantes');
-    let removerVisivel = '';
 
-    if (projetoAbertoCompartilhado == 'true') {
-        removerVisivel = 'hidden';
-
-        const menuAddPessoas = document.querySelector('.add__pessoas');
-
-        menuAddPessoas.innerHTML = '';
-    }
-
-    for (const participante of participantesConvertido) {
+    participanteConvertido.forEach(async participante => {
         const participanteEmail = await fetch(`http://localhost:3000/usuarios/${participante.codUsuario}`);
         const participanteEmailConvertido = await participanteEmail.json();
 
-        let opcoesPermissao = `
-            <option class="mudaPermMembro" value="membro" selected>Membro</option>
-            <option class="mudaPermAdm" value="administrador">Administrador</option>
-        `
-
-        if (participante.permissao == 'administrador') {
-            opcoesPermissao = `
-                <option class="mudaPermMembro" value="membro">Membro</option>
-                <option class="mudaPermAdm" value="administrador" selected>Administrador</option>
-            `
-        }
-
         listaParticipantes.innerHTML += `
-            <li>
-                <button class="cl_removerParticipante ${participante.id}" ${removerVisivel}>Remover</button>
-                <span>${participanteEmailConvertido.email}</span>
-                <select name="selectPermissao" class="cl_mudaPermissao" id="mudaPermissao${participante.id}">
-                    ${opcoesPermissao}
-                </select>
-            </li>
+            <li>${participanteEmailConvertido.email}</li>
         `
-    };
-
-    const botaoRemoverParticipante = document.querySelectorAll('.cl_removerParticipante');
-    const botaoAlterarPermissao = document.querySelectorAll('.cl_mudaPermissao');
-
-    botaoRemoverParticipante.forEach(botao => {
-        botao.addEventListener('click', () => { removerParticipante(botao.classList[1]) })
     });
-
-    botaoAlterarPermissao.forEach(botao => {
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        // ALTERAR PERMISSÃO DO USUÁRIO AQUI
-        botao.addEventListener('change', () => { alert(botao.value) });
-    });
-    //#endregion
 }
 
-// BOTÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
+//BOTÃO PARA ADICIONAR PARTICIPANTES NO PROJETO
 const botaoAdicionaPessoa = document.querySelector('.add__pessoas__botao');
 const menuPessoasAdicionadas = document.querySelector('#pessoasContainer');
 const campoPessoa = document.querySelector('.input_nome');
@@ -690,22 +624,6 @@ async function enviarParaServidor(nome) {
     const participante = await fetch(`http://localhost:3000/usuarios/email/${nome}`);
     const participanteConvertido = await participante.json();
 
-    const todosParticipantes = await fetch(`http://localhost:3000/participantes/${projetoAberto}`);
-    const todosParticipantesConvertido = await todosParticipantes.json();
-
-    let usuarioCompartilhado = false;
-
-    todosParticipantesConvertido.forEach(participante => {
-        if (participante.codUsuario == participanteConvertido.id) {
-            alert('Esse usuário já tem acesso ao projeto.');
-            usuarioCompartilhado = true;
-        }
-    });
-
-    if (usuarioCompartilhado) {
-        return;
-    }
-
     if (participanteConvertido) {
         const response = await fetch('http://localhost:3000/participantes', {
             method: 'POST',
@@ -713,48 +631,39 @@ async function enviarParaServidor(nome) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                codUsuario: participanteConvertido.id,
-                codProjeto: projetoAberto,
-                permissao: 'membro'
+                codUsuario: participanteConvertido.id,    
+                codProjeto: projetoAberto
             })
         });
 
         if (!response.ok) {
-            throw new Error('Erro ao adicionar participante.');
+            throw new Error('Erro ao adicionar participante');
         }
     }
 
     else {
         alert('Usuário não existe.');
-        return;
+        return
     }
 }
+
 
 // Função async para adicionar pessoa ao projeto
 
 async function adicionaPessoas_Projeto() {
-    const nome = campoPessoa.value;
+  const nome = campoPessoa.value.trim();
 
-    if (!nome) {
-        alert("Email inválido.");
-        return;
-    }
+  if (!nome) {
+    alert("Nome inválido");
+    return;
+  }
 
-    try {
-        const resposta = await enviarParaServidor(nome);
-        console.log(resposta);
-    } catch (erro) {
-        alert(`${erro}, ERRO`);
-    }
+  try {
+    const resposta = await enviarParaServidor(nome);
+    console.log(resposta);
+  } catch (erro) {
+    alert(`${erro}, ERRO`);
+  }
 }
 
-botaoAdicionaPessoa.addEventListener('click', () => { adicionaPessoas_Projeto() });
-//#endregion
-
-function ativarMenuLateral() {
-    if (menuLateral.style.display == "none") {
-        menuLateral.style.display = "block";
-    } else {
-        menuLateral.style.display = "none";
-    }
-}
+botaoAdicionaPessoa.addEventListener('click', adicionaPessoas_Projeto);

@@ -2,6 +2,7 @@
 const botaoLogin = document.querySelector('#id_botao_login')
 const nomeOuEmail = document.querySelector('#usuario_section')
 const senha = document.querySelector('#senha_section')
+const troca_senha = document.querySelector('#nova_Senha_section')
 //#endregion
 
 //#region EVENTS
@@ -15,10 +16,8 @@ usuarioLogado()
 function usuarioLogado() {
     const usuario = JSON.parse(window.localStorage.getItem('usuarioStorage'));
 
-    //alert(usuario)
-
-    if (usuario) {
-        window.location.href = './paginas/paginainicial.html'
+    if (usuario != 'null') {
+        window.location.href = './paginas/paginainicial.html';
     }
 }
 
@@ -63,3 +62,6 @@ async function logarUsuario(nomeOuEmail, senha) {
         alert('Faltam informações.')
     }
 }
+
+
+

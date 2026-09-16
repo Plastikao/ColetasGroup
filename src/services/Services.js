@@ -54,35 +54,6 @@ class Services {
         })
     }
 
-    async pegaUmConteudoAberto(idConteudo) {
-        return dataSource[this.model].findOne({
-            where: { id: idConteudo },
-        })
-    }
-
-    async pegaTodasAsCheckbox(idProjeto) {
-        const Classes = dataSource['Classes'];
-        const Blocos = dataSource['Blocos'];
-        const Projetos = dataSource['Projeto'];
-
-        return dataSource[this.model].findAll({
-            include: [{
-                model: Classes,
-                where: { tipoClasse: 'checkbox' },
-                required: true,
-                include: [{
-                    model: Blocos,
-                    required: true,
-                    include: [{
-                        model: Projetos,
-                        where: { id: idProjeto },
-                        required: true
-                    }]
-                }]
-            }]
-        })
-    }
-
     async pegaUmRegistroPorId(id) {
         return dataSource[this.model].findOne({
             where: { id: id },
@@ -106,6 +77,13 @@ class Services {
             where: { senha: senha },
         })
     }
+
+    async PegaTodosOsParticipantes(idProjeto) {
+        return dataSource[this.model].findAll({
+            where: { codProjeto: idProjeto },
+        })
+    }
+    //#endregion
 
     async pegaTodosOsParticipantes(idProjeto) {
         return dataSource[this.model].findAll({
